@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class InGameController : MonoBehaviour
@@ -45,8 +46,10 @@ public class InGameController : MonoBehaviour
         stage = Stage_Codes.wait_matching;
         modify_hint_text("Wait for game matching...");
         http_request_handler = new HttpRequestHandler(server_ip_address);
-        userid = 1;
+        userid= GameObject.Find("StartInfo").GetComponent<keepData>().userid;
+        debug_text(userid.ToString());
         confirm_button.gameObject.SetActive(false);
+        
 
         // confirm_button.interactable = false;
     }
@@ -134,7 +137,7 @@ public class InGameController : MonoBehaviour
 
                     if (sendpiece_response.status == "end game")
                     {
-                        // TODO: end game
+                        end_scene();
                     }
                     stage = Stage_Codes.wait_opponent;
                     delay = true;
@@ -153,7 +156,7 @@ public class InGameController : MonoBehaviour
 
                 checkstatus_json check_status_response = new checkstatus_json();
                 // check_status_response.status = "player turn";
-                check_status_response = http_request_handler.send_chechstatus_request(
+                check_status_response = http_request_handler.send_checkstatus_request(
                     userid,
                     gameid
                 );
@@ -170,7 +173,8 @@ public class InGameController : MonoBehaviour
                 }
                 else if (check_status_response.status == "end game")
                 {
-                    debug_text(check_status_response.status);
+                    // debug_text(check_status_response.status);
+                    end_scene();
                 }
                 else if (check_status_response.status == "opponent turn")
                 {
@@ -181,6 +185,16 @@ public class InGameController : MonoBehaviour
             }
         }
         time += 1.0f * Time.deltaTime;
+    }
+
+    public void exit_button_onClick(){
+        http_request_handler.send_endgame_request(userid);
+        end_scene();
+    }
+
+    private void end_scene(){
+        GameObject.Find("userInfo").GetComponent<keepData>().userid=userid;
+        SceneManager.LoadScene("Scenes/EndGame");
     }
 
     enum Stage_Codes
@@ -282,36 +296,48 @@ public class InGameController : MonoBehaviour
             ip_address = ip;
         }
 
-        public waitformatch_json send_waitformatch_request(int userid)
+        public waitformatch_json send_waitformatch_request(int send_userid)
         {
             waitformatch_json waitformatch_result = new waitformatch_json();
 
             // TODO: Send request to real server and phase responded json file to c# class.
-            waitformatch_result = mock_server.wait_for_match_request(userid);
+            waitformatch_result = mock_server.wait_for_match_request(send_userid);
 
             return waitformatch_result;
         }
 
-        public sendpiece_json send_sendpiece_request(int userid, int gameid, Vector3 pos)
+        public sendpiece_json send_sendpiece_request(int send_userid, int send_gameid, Vector3 send_pos)
         {
             sendpiece_json result = new sendpiece_json();
 
             // TODO: change Vector3 pos to List<float>
 
-            // TODO: Send request to real server and phase responded json file to c# class.
-            result = mock_server.send_pos_request(userid, gameid, pos);
+            // TODO: Send request to real server and phase responded json to c# class.
+            result = mock_server.send_pos_request(send_userid, send_gameid, send_pos);
             return result;
         }
 
-        public checkstatus_json send_chechstatus_request(int userid, int gameid)
+        public checkstatus_json send_checkstatus_request(int send_userid, int send_gameid)
         {
             checkstatus_json result = new checkstatus_json();
 
-            // TODO: Send request to real server and phase responded json file to c# class.
-            result = mock_server.check_status_request(userid, gameid);
+            // TODO: Send request to real server and phase responded json to c# class.
+            result = mock_server.check_status_request(send_userid, send_gameid);
 
             return result;
         }
+
+        public endgame_json send_endgame_request(int send_userid)
+        {
+            endgame_json endgame_result = new endgame_json();
+
+            // TODO: Send request to real server and phase responded json file to c# class.
+            endgame_result = mock_server.mock_end_game(send_userid);
+
+            return endgame_result;
+        }
+
+
     }
 
     public class waitformatch_json
@@ -349,24 +375,34 @@ public class InGameController : MonoBehaviour
         }
     }
 
+    public class endgame_json
+    {
+        public string status;
+
+        public endgame_json()
+        {
+            status = "ended";
+        }
+    }
+
     public class MockServer
     {
         private string ip_address;
         private Dictionary<int, int> waitformatch_dict = new Dictionary<int, int>();
         private Dictionary<int, int> checkstatus_dict = new Dictionary<int, int>();
 
-        public waitformatch_json wait_for_match_request(int userid)
+        public waitformatch_json wait_for_match_request(int send_userid)
         {
             waitformatch_json waitformatch_result = new waitformatch_json();
-            if (waitformatch_dict.ContainsKey(userid))
+            if (waitformatch_dict.ContainsKey(send_userid))
             {
-                if (waitformatch_dict[userid] > 0)
+                if (waitformatch_dict[send_userid] > 0)
                 {
-                    waitformatch_dict[userid] -= 1;
+                    waitformatch_dict[send_userid] -= 1;
                 }
                 else
                 {
-                    waitformatch_dict[userid] = 5;
+                    waitformatch_dict[send_userid] = 5;
                     waitformatch_result.status = "matched";
                     waitformatch_result.isFirst = true;
                     waitformatch_result.gameid = 1;
@@ -374,57 +410,62 @@ public class InGameController : MonoBehaviour
             }
             else
             {
-                waitformatch_dict[userid] = 5;
+                waitformatch_dict[send_userid] = 5;
             }
             return waitformatch_result;
         }
 
-        public sendpiece_json send_pos_request(int userid, int gameid, Vector3 pos)
+        public sendpiece_json send_pos_request(int send_userid, int send_gameid, Vector3 pos)
         {
             sendpiece_json result = new sendpiece_json();
             result.status = "opponent turn";
             return result;
         }
 
-        public checkstatus_json check_status_request(int userid, int gameid)
+        public checkstatus_json check_status_request(int send_userid, int send_gameid)
         {
             checkstatus_json result = new checkstatus_json();
-            if (checkstatus_dict.ContainsKey(userid))
+            if (checkstatus_dict.ContainsKey(send_userid))
             {
-                if (checkstatus_dict[userid] > 0)
+                if (checkstatus_dict[send_userid] > 0)
                 {
                     result.status = "player turn";
                     List<float> new_loc = new List<float>()
                     {
-                        0.05f - 0.025f * checkstatus_dict[userid],
+                        0.05f - 0.025f * checkstatus_dict[send_userid],
                         0.0f,
                         0.0f
                     };
                     result.new_piece_location = new_loc;
-                    checkstatus_dict[userid] -= 1;
+                    checkstatus_dict[send_userid] -= 1;
                 }
                 else
                 {
                     result.status = "end game";
                     List<float> new_loc = new List<float>() { 0.0f, 0.0f, 0.0f };
                     result.new_piece_location = new_loc;
-                    checkstatus_dict[userid] = 4;
+                    checkstatus_dict[send_userid] = 4;
                 }
             }
             else
             {
-                checkstatus_dict[userid] = 4;
+                checkstatus_dict[send_userid] = 4;
 
                 result.status = "player turn";
                 List<float> new_loc = new List<float>()
                 {
-                    0.05f - 0.025f * checkstatus_dict[userid],
+                    0.05f - 0.025f * checkstatus_dict[send_userid],
                     0.0f,
                     0.0f
                 };
                 result.new_piece_location = new_loc;
-                checkstatus_dict[userid] -= 1;
+                checkstatus_dict[send_userid] -= 1;
             }
+            return result;
+        }
+
+        public endgame_json mock_end_game(int send_userid){
+            endgame_json result = new endgame_json();
             return result;
         }
     }
