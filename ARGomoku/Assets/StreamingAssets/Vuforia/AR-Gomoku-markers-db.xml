@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="piece_marker" size="0.016500 0.016500" />
+    <ImageTarget name="side_marker_4" size="0.032000 0.032000" />
+    <ImageTarget name="side_marker_3" size="0.032000 0.032000" />
+    <ImageTarget name="side_marker_2" size="0.032000 0.032000" />
+    <ImageTarget name="side_marker_1" size="0.032000 0.032000" />
+  </Tracking>
+</QCARConfig>
