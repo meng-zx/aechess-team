@@ -1541,7 +1541,7 @@ MonoBehaviour:
     type: 3}
   white_piece_prefab: {fileID: 8129034409477758878, guid: cb0fa4b5857224f0c8e6d78ef3a82d8d,
     type: 3}
-  chesspiece: {fileID: 730398359}
+  chesspiece: {fileID: 3736904332335044292}
   Corners:
   - {fileID: 581882803}
   - {fileID: 1764398124}
@@ -2458,7 +2458,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -350, y: -1200}
-  m_SizeDelta: {x: 500, y: 150}
+  m_SizeDelta: {x: 450, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1871509698
 MonoBehaviour:
@@ -2592,7 +2592,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 350, y: -1200}
-  m_SizeDelta: {x: 500, y: 150}
+  m_SizeDelta: {x: 450, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1896989077
 MonoBehaviour:
@@ -3000,3 +3000,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb0fa4b5857224f0c8e6d78ef3a82d8d, type: 3}
+--- !u!1 &3736904332335044292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8129034409477758878, guid: cb0fa4b5857224f0c8e6d78ef3a82d8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3736904332335044291}
+  m_PrefabAsset: {fileID: 0}

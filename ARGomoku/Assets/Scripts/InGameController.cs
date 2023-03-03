@@ -226,6 +226,9 @@ public class InGameController : MonoBehaviour
 
     private bool new_piece_in_range()
     {
+        // PNPoly Algorithm
+        // More info at: https://wrfranklin.org/Research/Short_Notes/pnpoly.html
+
         if (!new_piece_marker_traked)
         {
             return false;
