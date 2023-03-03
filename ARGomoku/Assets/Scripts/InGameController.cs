@@ -38,6 +38,10 @@ public class InGameController : MonoBehaviour
 
     private int piece_cnt;
 
+    private bool new_piece_marker_traked = false;
+
+    public GameObject[] Corners = new GameObject[4];
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,10 +50,10 @@ public class InGameController : MonoBehaviour
         stage = Stage_Codes.wait_matching;
         modify_hint_text("Wait for game matching...");
         http_request_handler = new HttpRequestHandler(server_ip_address);
-        userid= GameObject.Find("StartInfo").GetComponent<keepData>().userid;
+        userid = GameObject.Find("StartInfo").GetComponent<keepData>().userid;
         debug_text(userid.ToString());
         confirm_button.gameObject.SetActive(false);
-        
+        new_piece_marker_traked = false;
 
         // confirm_button.interactable = false;
     }
@@ -104,14 +108,15 @@ public class InGameController : MonoBehaviour
             {
                 confirm_button.gameObject.SetActive(true);
                 modify_hint_text("Your turn");
-                if (new_piece_in_range())
-                {
-                    confirm_button.interactable = true;
-                }
-                else
-                {
-                    confirm_button.interactable = false;
-                }
+                // if (new_piece_in_range())
+                // {
+                //     confirm_button.interactable = true;
+                // }
+                // else
+                // {
+                //     confirm_button.interactable = false;
+                // }
+                confirm_button.interactable = new_piece_in_range();
 
                 if (prev_piece_flag)
                 {
@@ -187,13 +192,15 @@ public class InGameController : MonoBehaviour
         time += 1.0f * Time.deltaTime;
     }
 
-    public void exit_button_onClick(){
+    public void exit_button_onClick()
+    {
         http_request_handler.send_endgame_request(userid);
         end_scene();
     }
 
-    private void end_scene(){
-        GameObject.Find("userInfo").GetComponent<keepData>().userid=userid;
+    private void end_scene()
+    {
+        GameObject.Find("userInfo").GetComponent<keepData>().userid = userid;
         SceneManager.LoadScene("Scenes/EndGame");
     }
 
@@ -219,7 +226,43 @@ public class InGameController : MonoBehaviour
 
     private bool new_piece_in_range()
     {
-        return true;
+        if (!new_piece_marker_traked)
+        {
+            return false;
+        }
+        int nvert = 4;
+        Vector3 piece_loc_on_chessboard = transfer_to_chessboard_coordinate(
+            chesspiece.transform.position
+        );
+        float testx = piece_loc_on_chessboard.x;
+        float testy = piece_loc_on_chessboard.z;
+
+        float[] vertx = new float[nvert];
+        float[] verty = new float[nvert];
+
+        for (int n = 0; n < nvert; n++)
+        {
+            Vector3 loc = transfer_to_chessboard_coordinate(Corners[n].transform.position);
+            vertx[n] = loc.x;
+            verty[n] = loc.z;
+        }
+
+        int i = 0;
+        int j = 0;
+        bool c = false;
+
+        for (i = 0, j = nvert - 1; i < nvert; j = i++)
+        {
+            if (
+                ((verty[i] > testy) != (verty[j] > testy))
+                && (
+                    testx
+                    < (vertx[j] - vertx[i]) * (testy - verty[i]) / (verty[j] - verty[i]) + vertx[i]
+                )
+            )
+                c = !c;
+        }
+        return c;
     }
 
     public void confirm_button_OnClick()
@@ -240,6 +283,11 @@ public class InGameController : MonoBehaviour
     public void marker_4_tracked()
     {
         side_markers_tracking.side_marker_4_tracked = true;
+    }
+
+    public void new_piece_target_tracked()
+    {
+        new_piece_marker_traked = true;
     }
 
     public class MarkerTrackingSystem
@@ -306,7 +354,11 @@ public class InGameController : MonoBehaviour
             return waitformatch_result;
         }
 
-        public sendpiece_json send_sendpiece_request(int send_userid, int send_gameid, Vector3 send_pos)
+        public sendpiece_json send_sendpiece_request(
+            int send_userid,
+            int send_gameid,
+            Vector3 send_pos
+        )
         {
             sendpiece_json result = new sendpiece_json();
 
@@ -336,8 +388,6 @@ public class InGameController : MonoBehaviour
 
             return endgame_result;
         }
-
-
     }
 
     public class waitformatch_json
@@ -464,7 +514,8 @@ public class InGameController : MonoBehaviour
             return result;
         }
 
-        public endgame_json mock_end_game(int send_userid){
+        public endgame_json mock_end_game(int send_userid)
+        {
             endgame_json result = new endgame_json();
             return result;
         }
