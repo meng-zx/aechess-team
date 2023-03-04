@@ -26,7 +26,7 @@ public class InGameController : MonoBehaviour
     private bool first_play_flag = true;
     private bool confirm_button_clicked = false;
 
-    public TextMeshProUGUI Debug_Text_Box;
+    // public TextMeshProUGUI Debug_Text_Box;
 
     [SerializeField]
     GameObject black_piece_prefab;
@@ -51,7 +51,7 @@ public class InGameController : MonoBehaviour
         modify_hint_text("Wait for game matching...");
         http_request_handler = new HttpRequestHandler(server_ip_address);
         userid = GameObject.Find("StartInfo").GetComponent<keepData>().userid;
-        debug_text(userid.ToString());
+        // debug_text(userid.ToString());
         confirm_button.gameObject.SetActive(false);
         new_piece_marker_traked = false;
 
@@ -121,7 +121,7 @@ public class InGameController : MonoBehaviour
                 if (prev_piece_flag)
                 {
                     add_piece(Prev_new_piece, !first_play_flag);
-                    modify_hint_text(Prev_new_piece.ToString());
+
                     prev_piece_flag = false;
                 }
 
@@ -132,7 +132,7 @@ public class InGameController : MonoBehaviour
                         chesspiece.transform.position
                     );
 
-                    add_piece(loc_on_chessboard, first_play_flag);
+                    // add_piece(loc_on_chessboard, first_play_flag);
 
                     sendpiece_json sendpiece_response = http_request_handler.send_sendpiece_request(
                         userid,
@@ -157,7 +157,7 @@ public class InGameController : MonoBehaviour
             }
             else if (stage == Stage_Codes.wait_opponent)
             {
-                modify_hint_text("waitopponent");
+                modify_hint_text("wait for opponent's turn");
 
                 checkstatus_json check_status_response = new checkstatus_json();
                 // check_status_response.status = "player turn";
@@ -218,11 +218,11 @@ public class InGameController : MonoBehaviour
         Hint_Text_Box.fontSize = fontsize;
     }
 
-    private void debug_text(string s, int fontsize = 48)
-    {
-        Debug_Text_Box.text = s;
-        Debug_Text_Box.fontSize = fontsize;
-    }
+    // private void debug_text(string s, int fontsize = 48)
+    // {
+    //     Debug_Text_Box.text = s;
+    //     Debug_Text_Box.fontSize = fontsize;
+    // }
 
     private bool new_piece_in_range()
     {

@@ -1536,7 +1536,6 @@ MonoBehaviour:
   Hint_Text_Box: {fileID: 1961776143}
   confirm_button: {fileID: 1896989077}
   time_delay: 0.5
-  Debug_Text_Box: {fileID: 0}
   black_piece_prefab: {fileID: 4525056052101954795, guid: a2cfd92a62b424e609d3665d6a296cf1,
     type: 3}
   white_piece_prefab: {fileID: 8129034409477758878, guid: cb0fa4b5857224f0c8e6d78ef3a82d8d,
@@ -2270,7 +2269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1614810043
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2946,7 +2945,7 @@ PrefabInstance:
     - target: {fileID: 3919917944731314812, guid: cb0fa4b5857224f0c8e6d78ef3a82d8d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.004
       objectReference: {fileID: 0}
     - target: {fileID: 3919917944731314812, guid: cb0fa4b5857224f0c8e6d78ef3a82d8d,
         type: 3}
