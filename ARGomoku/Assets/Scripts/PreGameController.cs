@@ -45,7 +45,7 @@ public class PreGameController : MonoBehaviour
                 if (reset_button_clicked){
                     stage = Stage_Codes.reset_text;
                 }
-                if (start_button_clicked){
+                else if (start_button_clicked){
                     stage = Stage_Codes.get_webpage;
                     
                 }
