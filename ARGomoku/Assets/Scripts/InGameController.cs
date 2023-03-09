@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -474,6 +475,7 @@ public class InGameController : MonoBehaviour
     }
 
 
+    [Serializable]
     public class waitformatch_json
     {
         public string status;
@@ -488,6 +490,7 @@ public class InGameController : MonoBehaviour
         }
     }
 
+    [Serializable]
     public class sendpiece_json
     {
         public string status;
@@ -498,6 +501,7 @@ public class InGameController : MonoBehaviour
         }
     }
 
+    [Serializable]
     public class checkstatus_json
     {
         public string status;
@@ -509,6 +513,7 @@ public class InGameController : MonoBehaviour
         }
     }
 
+    [Serializable]
     public class endgame_json
     {
         public string status;

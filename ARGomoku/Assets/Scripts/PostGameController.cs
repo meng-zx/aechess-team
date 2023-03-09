@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -133,8 +134,8 @@ public class PostGameController : MonoBehaviour
 
         }
 
-    
 
+    [Serializable]
     public class checkstats_json{
         public bool isWin;
         public int num_piece;
@@ -144,6 +145,7 @@ public class PostGameController : MonoBehaviour
         }
     }
 
+   [Serializable]
     public class clearrecords_json{
         public string status;
         public clearrecords_json(){

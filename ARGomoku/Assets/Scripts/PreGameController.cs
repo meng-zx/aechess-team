@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Networking;
+
 
 public class PreGameController : MonoBehaviour
 {
@@ -191,6 +193,7 @@ public class PreGameController : MonoBehaviour
         Hint_Text_Box.fontSize = fontsize;
     }
 
+    [Serializable]
     public class gamestart_json
     {
         public int userid;
