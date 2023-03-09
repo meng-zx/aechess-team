@@ -15,7 +15,7 @@ public class PreGameController : MonoBehaviour
 
     public TextMeshProUGUI Hint_Text_Box;
 
-    private HttpRequestHandler http_request_handler;
+
 
     bool start_button_clicked = false;
 
@@ -38,7 +38,6 @@ public class PreGameController : MonoBehaviour
     {
         userid = -1;
         ruleid = 1;
-        http_request_handler = new HttpRequestHandler(ip_address);
         modify_hint_text("Welcome to AR Gomoku");
         start_button_clicked = false;
         test_button_clicked = false;
@@ -67,7 +66,7 @@ public class PreGameController : MonoBehaviour
             case Stage_Codes.get_webpage:
             // send get_page webrequest
                 get_webpage_done = false;
-                StartCoroutine(GetRequest("https://eecs388.org"));
+                StartCoroutine(GetRequest());
                 stage = Stage_Codes.get_webpage_wait;
                 break;
             case Stage_Codes.get_webpage_wait:
@@ -78,7 +77,7 @@ public class PreGameController : MonoBehaviour
                 }
                 else{
                     // finished processing
-                    StopCoroutine(GetRequest("https://eecs388.org"));
+                    StopCoroutine(GetRequest());
 
                     // do some game logic
                     modify_hint_text(get_webpage_response_text);
@@ -151,8 +150,9 @@ public class PreGameController : MonoBehaviour
         reset_text
     }
 
-     IEnumerator GetRequest(string uri)
+     IEnumerator GetRequest()
     {
+        string uri = "https://eecs388.org";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
             // Request and wait for the desired page.
@@ -172,41 +172,17 @@ public class PreGameController : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                      get_webpage_response_text = pages[page] + ":\nReceived: " + webRequest.downloadHandler.text;
-                     get_webpage_done = true;
+                     get_webpage_done = true; // Please put this line after getting the result
                     break;
             }
         }
     }
     IEnumerator gamestart_request(int send_ruleid){
         // TODO: Send request to real server and phase responded json to c# class.
+        yield return new WaitForSeconds(2);
         gamestart_response = mock_server.check_gamestart_request(send_ruleid);
-        gamestart_request_done = true;
-        yield return null;
-
+        gamestart_request_done = true; // Please put this line after putting the result into json class
     
-    }
-
-
-    public class HttpRequestHandler
-    {
-        private string ip_address;
-
-        private MockServer mock_server = new MockServer();
-
-        public HttpRequestHandler(string ip)
-        {
-            ip_address = ip;
-        }
-
-        public gamestart_json send_gamestart_request(int send_ruleid)
-        {
-            gamestart_json result = new gamestart_json();
-
-            // TODO: Send request to real server and phase responded json to c# class.
-            result = mock_server.check_gamestart_request(send_ruleid);
-
-            return result;
-        }
     }
 
     private void modify_hint_text(string s, int fontsize = 48)
