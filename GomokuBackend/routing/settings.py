@@ -77,7 +77,7 @@ DATABASES = {
   'default': {
       'ENGINE': 'django.db.backends.postgresql',
       'NAME': 'gomokudb',
-      'USER': 'admin',
+      'USER': 'gomokuer',
       'PASSWORD': 'chattchatt',
       'HOST': 'localhost',
       'PORT': '',

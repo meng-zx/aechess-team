@@ -1,0 +1,27 @@
+\connect gomokudb;
+
+INSERT INTO
+    MATCH_QUEUE(RULEID, MATCHED)
+VALUES
+    (1, FALSE);
+
+INSERT INTO
+    GAME_INFO (
+        USERID,
+        OPPONENTID,
+        PLAYER_TURN,
+        GAME_STATUS,
+        PIECE_CNT
+    )
+VALUES
+    (1, 2, FALSE, 'OnGoing', 10);
+
+INSERT INTO
+    NEW_PIECE_INFO (USERID, GAMEID, X, Y, Z)
+VALUES
+    (1, 1, 4.1234, -1.1234, 1.14514);
+
+INSERT INTO
+    ALL_PIECE_INFO (USERID, GAMEID, X, Y, Z)
+VALUES
+    (1, 1, 4.1234, -1.1234, 1.14514);
