@@ -1,2 +1,4 @@
 GomokuBackend/env
 GomokuBackend/static
+GomokuBackend/routing/__pycache__
+
