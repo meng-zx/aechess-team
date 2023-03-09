@@ -108,14 +108,7 @@ public class InGameController : MonoBehaviour
             {
                 confirm_button.gameObject.SetActive(true);
                 modify_hint_text("Your turn");
-                // if (new_piece_in_range())
-                // {
-                //     confirm_button.interactable = true;
-                // }
-                // else
-                // {
-                //     confirm_button.interactable = false;
-                // }
+
                 confirm_button.interactable = new_piece_in_range();
 
                 if (prev_piece_flag)
@@ -207,9 +200,13 @@ public class InGameController : MonoBehaviour
     enum Stage_Codes
     {
         wait_matching,
+        wait_matching_wait,
         find_markers,
         player_turn,
-        wait_opponent
+
+        player_turn_wait,
+        wait_opponent,
+        wait_opponent_wait
     }
 
     private void modify_hint_text(string s, int fontsize = 48)
