@@ -1,8 +1,49 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from django.db import connection
+from django.db import connection, transaction
 from django.views.decorators.csrf import csrf_exempt
 import json
+
+
+@csrf_exempt
+# @transaction.atomic
+def gamestart(request):
+    if request.method != 'POST':
+        return HttpResponse(status=404)
+
+    json_data = json.loads(request.body)
+    response = {}
+
+
+
+    ruleid = json_data['ruleid']
+
+    cursor = connection.cursor()
+
+
+
+    cursor.execute('SELECT userid FROM match_queue '
+                   'WHERE ruleid = %s AND matched = FALSE;', (ruleid, ))
+
+    opponentid = cursor.fetchone()
+
+    if opponentid is None:
+        cursor.execute('INSERT INTO match_queue(ruleid, matched) VALUES (%s, FALSE);'
+                       , (ruleid, ))
+        userid = cursor.execute('SELECT MAX(userid) FROM match_queue;').fetchone()
+    else:
+        opponentid = opponentid[0]
+        cursor.execute('INSERT INTO match_queue(ruleid, matched) VALUES (%s, TRUE);'
+                       , (ruleid, ))
+        cursor.execute('UPDATE match_queue SET matched = TRUE '
+                       'WHERE userid = %s', (opponentid, ))
+
+        userid = cursor.execute('SELECT MAX(userid) FROM match_queue;').fetchone()
+        cursor.execute('INSERT INTO game_info(userid, oppenentid, player_turn, game_status, piece_cnt) VALUES'
+                       '(%s, %s, %s, %s, %s);', (userid, opponentid, 'TRUE', 'OnGoing', 10))
+
+    response['userid'] = userid
+    return JsonResponse(response)
 
 
 @csrf_exempt
@@ -127,4 +168,9 @@ def sendpiece(request):
     response = {
         'status': "opponent turn" 
     }
+    return JsonResponse(response)
+
+@csrf_exempt
+def clearrecords(request):
+    response = {}
     return JsonResponse(response)
