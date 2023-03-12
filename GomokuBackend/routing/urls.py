@@ -23,7 +23,7 @@ urlpatterns = [
     # 1. Pre-Game
     path('gamestart/', ingame.gamestart, name='gamestart'),
     # 2. In-Game
-    path('waitformatch/', hello.hello, name='waitformatch'),
+    path('waitformatch/', ingame.waitformatch, name='waitformatch'),
     path('sendpiece/', ingame.sendpiece, name='sendpiece'),
     path('checkstatus/', ingame.checkstatus, name='checkstatus'),
     path('endgame/', ingame.endgame, name='endgame'),

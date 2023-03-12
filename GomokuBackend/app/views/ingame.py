@@ -6,32 +6,27 @@ import json
 
 
 @csrf_exempt
-# @transaction.atomic
+@transaction.atomic
 def gamestart(request):
     if request.method != 'POST':
         return HttpResponse(status=404)
 
     json_data = json.loads(request.body)
     response = {}
-
-
-
     ruleid = json_data['ruleid']
 
     cursor = connection.cursor()
 
 
-
     cursor.execute('SELECT userid FROM match_queue '
                    'WHERE ruleid = %s AND matched = FALSE;', (ruleid, ))
-
     opponentid = cursor.fetchone()
 
     if opponentid is None:
         cursor.execute('INSERT INTO match_queue(ruleid, matched) VALUES (%s, FALSE);'
                        , (ruleid, ))
         cursor.execute('SELECT MAX(userid) FROM match_queue;')
-        userid = cursor.fetchone()
+        userid = cursor.fetchone()[0]
     else:
         opponentid = opponentid[0]
         cursor.execute('INSERT INTO match_queue(ruleid, matched) VALUES (%s, TRUE);'
@@ -40,11 +35,38 @@ def gamestart(request):
                        'WHERE userid = %s', (opponentid, ))
 
         cursor.execute('SELECT MAX(userid) FROM match_queue;')
-        userid = cursor.fetchone()
+        userid = cursor.fetchone()[0]
         cursor.execute('INSERT INTO game_info(userid, opponentid, player_turn, game_status, piece_cnt) VALUES'
                        '(%s, %s, %s, %s, %s);', (userid, opponentid, 'TRUE', 'OnGoing', 10))
 
     response['userid'] = userid
+    return JsonResponse(response)
+
+@csrf_exempt
+@transaction.atomic
+def waitformatch(request):
+    if request.method != 'POST':
+        return HttpResponse(status=404)
+
+    json_data = json.loads(request.body)
+    response = {}
+    userid = json_data['userid']
+
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT userid, gameid, player_turn FROM game_info '
+                   'WHERE userid = %s OR opponentid = %s;', (userid, userid))
+    result = cursor.fetchone()
+
+    if result is None:
+        response['gamid'] = -1
+        response['isFirst'] = True
+        response['status'] = "continue waiting"
+    else:
+        response['gameid'] = result[1]
+        response['isFirst'] = result[2] if userid == result[0] else not result[2]
+        response['status'] = "matched"
+
     return JsonResponse(response)
 
 
@@ -173,6 +195,7 @@ def sendpiece(request):
     return JsonResponse(response)
 
 @csrf_exempt
+@transaction.atomic
 def clearrecords(request):
     response = {}
     return JsonResponse(response)
