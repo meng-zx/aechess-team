@@ -78,3 +78,53 @@ def endgame(request):
     }
 
     return JsonResponse(response)
+
+
+@csrf_exempt
+def sendpiece(request):
+    """Implements path('sendpiece/', ingame.sendpiece, name='sendpiece').
+    """
+    if request.method != 'POST':
+        return HttpResponse(status=404)
+    
+    json_data = json.loads(request.body)
+    userid = json_data['userid']
+    gameid = json_data['gameid']
+    marker_location = json_data['marker_location']
+    response = {}
+    cursor = connection.cursor()
+    ## TODO: add error check for invalid gameid/userid?
+    cursor.execute('SELECT game_status, opponentid FROM game_info '
+                    'WHERE userid = %s AND gameid = %s;', (userid, gameid))
+    status, opponentid = cursor.fetchone()
+    if status in ["Win", "Lose"]:
+        response = {
+            'status': "end game"
+        }
+        return JsonResponse(response)
+    if len(marker_location) == 3: 
+        # check if already exist
+        cursor.execute('SELECT x,y,z FROM NEW_PIECE_INFO '
+                        'WHERE userid = %s AND gameid = %s;', (userid, gameid))
+        exist = cursor.fetchall()
+        if (len(exist)==0):
+            cursor.execute('INSERT INTO NEW_PIECE_INFO (userid, gameid, x, y, z) VALUES (%s, %s, %s, %s, %s)'
+                        , (userid, gameid, marker_location[0], marker_location[1], marker_location[2]))
+        else:
+            cursor.execute('UPDATE NEW_PIECE_INFO SET x = %s, y = %s, z = %s'
+                    'WHERE userid = %s AND gameid = %s', (marker_location[0], marker_location[1], marker_location[2],userid, gameid))
+        ## TODO: add check for duplicate location?
+        cursor.execute('INSERT INTO ALL_PIECE_INFO (userid, gameid, x, y, z) VALUES'
+                    '(%s, %s, %s, %s, %s)', (userid, gameid, marker_location[0], marker_location[1], marker_location[2]))
+        cursor.execute('UPDATE GAME_INFO SET PIECE_CNT = PIECE_CNT + 1'
+                    'WHERE userid = %s AND gameid = %s', (userid, gameid))
+        ## TODO: MVP: implement checking end of game and update game status
+        cursor.execute('UPDATE GAME_INFO SET PLAYER_TURN = %s '
+                    'WHERE userid = %s AND gameid = %s', (False, userid, gameid))
+        cursor.execute('UPDATE GAME_INFO SET PLAYER_TURN = %s '
+                    'WHERE userid = %s AND gameid = %s', (True, opponentid, gameid))
+    
+    response = {
+        'status': "opponent turn" 
+    }
+    return JsonResponse(response)

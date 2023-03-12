@@ -24,7 +24,7 @@ urlpatterns = [
     path('gamestart/', hello.hello, name='gamestart'),
     # 2. In-Game
     path('waitformatch/', hello.hello, name='waitformatch'),
-    path('sendpiece/', hello.hello, name='sendpiece'),
+    path('sendpiece/', ingame.sendpiece, name='sendpiece'),
     path('checkstatus/', ingame.checkstatus, name='checkstatus'),
     path('endgame/', ingame.endgame, name='endgame'),
     # 3. Post-Game
