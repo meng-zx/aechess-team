@@ -30,7 +30,8 @@ def gamestart(request):
     if opponentid is None:
         cursor.execute('INSERT INTO match_queue(ruleid, matched) VALUES (%s, FALSE);'
                        , (ruleid, ))
-        userid = cursor.execute('SELECT MAX(userid) FROM match_queue;').fetchone()
+        cursor.execute('SELECT MAX(userid) FROM match_queue;')
+        userid = cursor.fetchone()
     else:
         opponentid = opponentid[0]
         cursor.execute('INSERT INTO match_queue(ruleid, matched) VALUES (%s, TRUE);'
@@ -38,8 +39,9 @@ def gamestart(request):
         cursor.execute('UPDATE match_queue SET matched = TRUE '
                        'WHERE userid = %s', (opponentid, ))
 
-        userid = cursor.execute('SELECT MAX(userid) FROM match_queue;').fetchone()
-        cursor.execute('INSERT INTO game_info(userid, oppenentid, player_turn, game_status, piece_cnt) VALUES'
+        cursor.execute('SELECT MAX(userid) FROM match_queue;')
+        userid = cursor.fetchone()
+        cursor.execute('INSERT INTO game_info(userid, opponentid, player_turn, game_status, piece_cnt) VALUES'
                        '(%s, %s, %s, %s, %s);', (userid, opponentid, 'TRUE', 'OnGoing', 10))
 
     response['userid'] = userid
