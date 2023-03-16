@@ -15,7 +15,7 @@ public class PreGameController : MonoBehaviour
     private int userid;
     private int ruleid;
 
-    public string ip_address;
+    public string server_ip_address = "18.217.77.102";
 
     public TextMeshProUGUI Hint_Text_Box;
 

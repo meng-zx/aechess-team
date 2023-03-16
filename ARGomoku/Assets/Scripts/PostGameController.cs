@@ -5,12 +5,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
+
+using MyGlobal;
 
 public class PostGameController : MonoBehaviour
 {
     private int userid;
 
-    public string ip_address;
+    public string server_ip_address = "18.217.77.102";
 
     public TextMeshProUGUI Hint_Text_Box;
 
@@ -115,24 +118,58 @@ public class PostGameController : MonoBehaviour
     }
 
     IEnumerator send_checkstats_request(int send_userid){
-            checkstats_json result = new checkstats_json();
+        // POST
+        string uri = "https://" + server_ip_address +  "/checkstats/";
+        // TODO: remove hard-defined rules
+        WWWForm form = new WWWForm();
+        form.AddField("userid", send_userid);
 
-            // TODO: Send request to real server and phase responded json to c# class.
-            yield return new WaitForSeconds(0.5f);
-            checkstats_response = mock_server.check_stats_request(send_userid);
-            checkstats_request_done = true; // Please put this line after putting the result into json class
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
+        {
+            webRequest.certificateHandler = new MyGlobal.ControllerHelper.BypassCertificate();
 
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                modify_hint_text("POST checkstats request error: " + webRequest.error);
+                checkstats_request_done = true;
+            }
+            else
+            {
+                modify_hint_text("POST checkstats request success!");
+                checkstats_response = JsonUtility.FromJson<checkstats_json>(webRequest.downloadHandler.text);
+                checkstats_request_done = true; // Please put this line after putting the result into json class
+            }
         }
+    }
 
     IEnumerator send_clearrecords_request(int send_userid){
-            
+        // POST
+        string uri = "https://" + server_ip_address +  "/clearrecords/";
+        // TODO: remove hard-defined rules
+        WWWForm form = new WWWForm();
+        form.AddField("userid", send_userid);
 
-            // TODO: Send request to real server and phase responded json to c# class.
-            yield return new WaitForSeconds(0.5f);
-            clearrecords_response = mock_server.mock_clear_records(send_userid);
-            clearrecords_request_done =true; // Please put this line after putting the result into json class
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
+        {
+            webRequest.certificateHandler = new MyGlobal.ControllerHelper.BypassCertificate();
 
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                modify_hint_text("POST clearrecords request error: " + webRequest.error);
+                clearrecords_request_done = true;
+            }
+            else
+            {
+                modify_hint_text("POST clearrecords request success!");
+                clearrecords_response = JsonUtility.FromJson<clearrecords_json>(webRequest.downloadHandler.text);
+                clearrecords_request_done = true; // Please put this line after putting the result into json class
+            }
         }
+    }
 
 
     [Serializable]
