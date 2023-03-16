@@ -5,10 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.Networking;
+
+using MyGlobal;
 
 public class InGameController : MonoBehaviour
 {
-    public string server_ip_address = "0.0.0.0";
+    public string server_ip_address = "18.217.77.102";
     public GameObject Chessboard;
     public TextMeshProUGUI Hint_Text_Box;
     public Button confirm_button;
@@ -54,11 +57,11 @@ public class InGameController : MonoBehaviour
     sendpiece_json sendpiece_response = new sendpiece_json();
     bool sendpiece_request_done = true;
 
-    checkstatus_json check_status_response = new checkstatus_json();
+    checkstatus_json checkstatus_response = new checkstatus_json();
     bool checkstatus_request_done = true;
 
-    endgame_json endgame_result = new endgame_json();
-    bool send_endgame_request_done = true;
+    endgame_json endgame_response = new endgame_json();
+    bool endgame_request_done = true;
 
     Vector3 loc_on_chessboard = new Vector3();
 
@@ -78,7 +81,7 @@ public class InGameController : MonoBehaviour
         waitformatch_request_done = true;
         sendpiece_request_done = true;
         checkstatus_request_done = true;
-        send_endgame_request_done = true;
+        endgame_request_done = true;
          
 
 
@@ -94,7 +97,7 @@ public class InGameController : MonoBehaviour
 
             switch(stage){
                     case Stage_Codes.wait_matching:
-                    modify_hint_text("Wait for game matching...");
+                    modify_hint_text(userid.ToString());
                     waitformatch_request_done = false;
                     StartCoroutine(waitformatch_request(userid));
                     stage = Stage_Codes.wait_matching_wait;
@@ -218,23 +221,23 @@ public class InGameController : MonoBehaviour
                     }
                     else{
                         StopCoroutine(send_checkstatus_request(userid, gameid));
-                        if (check_status_response.status == "player turn")
+                        if (checkstatus_response.status == "player turn")
                         {
                             stage = Stage_Codes.player_turn;
                             prev_piece_flag = true;
                             Prev_new_piece = new Vector3(
-                                check_status_response.new_piece_location[0],
-                                check_status_response.new_piece_location[1],
-                                check_status_response.new_piece_location[2]
+                                checkstatus_response.new_piece_location[0],
+                                checkstatus_response.new_piece_location[1],
+                                checkstatus_response.new_piece_location[2]
                             );
                             delay = false;
                         }
-                        else if (check_status_response.status == "end game")
+                        else if (checkstatus_response.status == "end game")
                         {
-                            // debug_text(check_status_response.status);
+                            // debug_text(checkstatus_response.status);
                             end_scene();
                         }
-                        else if (check_status_response.status == "opponent turn")
+                        else if (checkstatus_response.status == "opponent turn")
                         {
                             stage = Stage_Codes.wait_opponent;
                             prev_piece_flag = false;
@@ -248,18 +251,25 @@ public class InGameController : MonoBehaviour
                     break;
                 case Stage_Codes.end_game:
                     modify_hint_text("end game");
-                    send_endgame_request_done = false;
+                    endgame_request_done = false;
                     StartCoroutine(send_endgame_request(userid));
                     stage = Stage_Codes.end_game_wait;
                     delay = false;
                     break;
                 case Stage_Codes.end_game_wait:
-                    if (!send_endgame_request_done){
+                    if (!endgame_request_done){
                         //wait
                     }
                     else{
                         StopCoroutine(send_endgame_request(userid));
-                        end_scene();
+                        if (endgame_response.status == "ended")
+                        {
+                            end_scene();
+                        }
+                        else
+                        {
+                            // TODO raise error to error handler
+                        }
                     }
                     break;
 
@@ -306,12 +316,6 @@ public class InGameController : MonoBehaviour
         Hint_Text_Box.text = s;
         Hint_Text_Box.fontSize = fontsize;
     }
-
-    // private void debug_text(string s, int fontsize = 48)
-    // {
-    //     Debug_Text_Box.text = s;
-    //     Debug_Text_Box.fontSize = fontsize;
-    // }
 
     private bool new_piece_in_range()
     {
@@ -428,11 +432,30 @@ public class InGameController : MonoBehaviour
 
 
     IEnumerator waitformatch_request(int send_userid){
-        // TODO: Send request to real server and phase responded json file to c# class.
-        yield return new WaitForSeconds(0.5f);
-        waitformatch_response = mock_server.wait_for_match_request(send_userid);
-        waitformatch_request_done = true;// Please put this line after putting the result into json class
+        // POST
+        string uri = "https://" + server_ip_address +  "/waitformatch/";
+        // TODO: remove hard-defined rules
+        WWWForm form = new WWWForm();
+        form.AddField("userid", send_userid);
 
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
+        {
+            webRequest.certificateHandler = new MyGlobal.ControllerHelper.BypassCertificate();
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                modify_hint_text("POST waitformatch request error: " + webRequest.error);
+                waitformatch_request_done = true;
+            }
+            else
+            {
+                modify_hint_text("POST waitformatch request success!");
+                waitformatch_response = JsonUtility.FromJson<waitformatch_json>(webRequest.downloadHandler.text);
+                waitformatch_request_done = true; // Please put this line after putting the result into json class
+            }
+        }
     }
 
     IEnumerator  send_sendpiece_request(
@@ -441,37 +464,91 @@ public class InGameController : MonoBehaviour
             Vector3 send_pos
         )
     {
+        // POST
+        string uri = "https://" + server_ip_address +  "/sendpiece/";
+        // TODO: remove hard-defined rules
+        WWWForm form = new WWWForm();
+        form.AddField("userid", send_userid);
+        form.AddField("gameid",  send_gameid);
+        List<float> marker_location = MyGlobal.ControllerHelper.Vector3ToList(send_pos);
+        string marker_location_str =  JsonUtility.ToJson(marker_location);
+        form.AddField("marker_location", marker_location_str);
 
-        // TODO: change Vector3 pos to List<float>
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
+        {
+            webRequest.certificateHandler = new MyGlobal.ControllerHelper.BypassCertificate();
 
-        // TODO: Send request to real server and phase responded json to c# class.
-        yield return new WaitForSeconds(0.5f);
-        sendpiece_response = mock_server.send_pos_request(send_userid, send_gameid, send_pos);
-        sendpiece_request_done = true;// Please put this line after putting the result into json class
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                modify_hint_text("POST sendpiece request error: " + webRequest.error);
+                sendpiece_request_done = true;
+            }
+            else
+            {
+                modify_hint_text("POST sendpiece request success!");
+                sendpiece_response = JsonUtility.FromJson<sendpiece_json>(webRequest.downloadHandler.text);
+                sendpiece_request_done = true; // Please put this line after putting the result into json class
+            }
+        }
     }
 
      IEnumerator send_checkstatus_request(int send_userid, int send_gameid)
     {
-        
+        // POST
+        string uri = "https://" + server_ip_address +  "/checkstatus/";
+        // TODO: remove hard-defined rules
+        WWWForm form = new WWWForm();
+        form.AddField("userid", send_userid);
+        form.AddField("gameid",  send_gameid);
 
-        // TODO: Send request to real server and phase responded json to c# class.
-        yield return new WaitForSeconds(0.5f);
-        check_status_response = mock_server.check_status_request(send_userid, send_gameid);
-        checkstatus_request_done= true;// Please put this line after putting the result into json class
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
+        {
+            webRequest.certificateHandler = new MyGlobal.ControllerHelper.BypassCertificate();
 
+            yield return webRequest.SendWebRequest();
 
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                modify_hint_text("POST checkstatus request error: " + webRequest.error);
+                checkstatus_request_done = true;
+            }
+            else
+            {
+                modify_hint_text("POST checkstatus request success!");
+                checkstatus_response = JsonUtility.FromJson<checkstatus_json>(webRequest.downloadHandler.text);
+                checkstatus_request_done = true; // Please put this line after putting the result into json class
+            }
+        }
     }
 
     IEnumerator send_endgame_request(int send_userid)
     {
+        // POST
+        string uri = "https://" + server_ip_address +  "/endgame/";
+        // TODO: remove hard-defined rules
+        WWWForm form = new WWWForm();
+        form.AddField("userid", send_userid);
 
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
+        {
+            webRequest.certificateHandler = new MyGlobal.ControllerHelper.BypassCertificate();
 
-        // TODO: Send request to real server and phase responded json file to c# class.
-        yield return new WaitForSeconds(0.5f);
-        endgame_result = mock_server.mock_end_game(send_userid);
-        send_endgame_request_done = true;// Please put this line after putting the result into json class
+            yield return webRequest.SendWebRequest();
 
-
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                modify_hint_text("POST endgame request error: " + webRequest.error);
+                endgame_request_done = true;
+            }
+            else
+            {
+                modify_hint_text("POST endgame request success!");
+                endgame_response = JsonUtility.FromJson<endgame_json>(webRequest.downloadHandler.text);
+                endgame_request_done = true; // Please put this line after putting the result into json class
+            }
+        }
     }
 
 
@@ -520,7 +597,7 @@ public class InGameController : MonoBehaviour
 
         public endgame_json()
         {
-            status = "ended";
+            status = "ended"; // todo
         }
     }
 

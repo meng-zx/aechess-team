@@ -1,0 +1,473 @@
+﻿#include "pch-c.h"
+#ifndef _MSC_VER
+# include <alloca.h>
+#else
+# include <malloc.h>
+#endif
+
+
+#include "codegen/il2cpp-codegen-metadata.h"
+
+
+
+
+
+// 0x00000001 System.Void icp::Start()
+extern void icp_Start_m644D2BEF8921AB79D792B60540F9FC6110831DF5 (void);
+// 0x00000002 System.Void icp::Update()
+extern void icp_Update_mAE23FE4AB96AB92668AB3E924824AC5E74C878C9 (void);
+// 0x00000003 System.Void icp::.ctor()
+extern void icp__ctor_mB0B055F4A22EEFEAB93AD2C224F6323A7F354959 (void);
+// 0x00000004 System.Void InGameController::Start()
+extern void InGameController_Start_m46505BBB6AE468B7181E841BDC06A7723ED32E66 (void);
+// 0x00000005 System.Void InGameController::Update()
+extern void InGameController_Update_m29C7B7061C21BC79E6593FDAE6B734C2A53AAA39 (void);
+// 0x00000006 System.Void InGameController::exit_button_onClick()
+extern void InGameController_exit_button_onClick_mF32E421D2769886BA3A1F673BDAB38205C229E22 (void);
+// 0x00000007 System.Void InGameController::end_scene()
+extern void InGameController_end_scene_m8C6A80582E6859EB18A2F310A43557AF2990D597 (void);
+// 0x00000008 System.Void InGameController::modify_hint_text(System.String,System.Int32)
+extern void InGameController_modify_hint_text_m94F8506DE02F49452786C82D5BBEE68FB9E55CA7 (void);
+// 0x00000009 System.Boolean InGameController::new_piece_in_range()
+extern void InGameController_new_piece_in_range_m7D2C1092453E357364438448405AB0B9A23D2EE4 (void);
+// 0x0000000A System.Void InGameController::confirm_button_OnClick()
+extern void InGameController_confirm_button_OnClick_mEAB934B58F9A74B807CB4F6C0ABF68D2A0976D0B (void);
+// 0x0000000B System.Void InGameController::marker_1_tracked()
+extern void InGameController_marker_1_tracked_m4A2F5C52F5C0673F61B6E3725AAD78320C658F65 (void);
+// 0x0000000C System.Void InGameController::marker_2_tracked()
+extern void InGameController_marker_2_tracked_mA1BBE9E686C42B0EE996A435B7E1E7F38BBC82B9 (void);
+// 0x0000000D System.Void InGameController::marker_4_tracked()
+extern void InGameController_marker_4_tracked_mB2B90222DEAAE92879F028038D32072B2C41A725 (void);
+// 0x0000000E System.Void InGameController::new_piece_target_tracked()
+extern void InGameController_new_piece_target_tracked_mD7C3FF8ED3F1663543255F63A3F8B0CC83CC5AA1 (void);
+// 0x0000000F UnityEngine.Vector3 InGameController::transfer_to_chessboard_coordinate(UnityEngine.Vector3)
+extern void InGameController_transfer_to_chessboard_coordinate_mB30A9C2E6901050E15C1DB18B50EAFFC5BBF8AA9 (void);
+// 0x00000010 System.Void InGameController::add_piece(UnityEngine.Vector3,System.Boolean)
+extern void InGameController_add_piece_m710410E3CDB323480483E6E60E111C07DE506B84 (void);
+// 0x00000011 System.Collections.IEnumerator InGameController::waitformatch_request(System.Int32)
+extern void InGameController_waitformatch_request_m65D82C899B8D3C088A7CABE8746082A703676F37 (void);
+// 0x00000012 System.Collections.IEnumerator InGameController::send_sendpiece_request(System.Int32,System.Int32,UnityEngine.Vector3)
+extern void InGameController_send_sendpiece_request_m73945E42881BB95641FE84FE9BFA1F652DCBAD36 (void);
+// 0x00000013 System.Collections.IEnumerator InGameController::send_checkstatus_request(System.Int32,System.Int32)
+extern void InGameController_send_checkstatus_request_m7900B74E3E6DFBA7EE92AECEDA14C836514D315B (void);
+// 0x00000014 System.Collections.IEnumerator InGameController::send_endgame_request(System.Int32)
+extern void InGameController_send_endgame_request_m49BA12110C8E0ADDAD417AC7C1A73970EF0FBB57 (void);
+// 0x00000015 System.Void InGameController::.ctor()
+extern void InGameController__ctor_m7906CF9A5F69CD561B5E2F4DD0543F7EB3F01700 (void);
+// 0x00000016 System.Void InGameController/MarkerTrackingSystem::.ctor()
+extern void MarkerTrackingSystem__ctor_m0EC92277D0930773FBF34777126E56699D8C0D22 (void);
+// 0x00000017 System.Boolean InGameController/MarkerTrackingSystem::all_markers_tracked()
+extern void MarkerTrackingSystem_all_markers_tracked_mC24351A06BA209A06A8B322256B759148817E4CA (void);
+// 0x00000018 System.Void InGameController/waitformatch_json::.ctor()
+extern void waitformatch_json__ctor_m9A735B3138B1112EAA83593E7FACDA51BE11D37B (void);
+// 0x00000019 System.Void InGameController/sendpiece_json::.ctor()
+extern void sendpiece_json__ctor_mF3A690A252E15D61E5B0795CADBC6D6AEE758891 (void);
+// 0x0000001A System.Void InGameController/checkstatus_json::.ctor()
+extern void checkstatus_json__ctor_mC5CC8F8DEC8C77005AEE7C9D0F40837416B97AF1 (void);
+// 0x0000001B System.Void InGameController/endgame_json::.ctor()
+extern void endgame_json__ctor_m6D44EFF0D78DC309FC479053A44D49D7F6CA1112 (void);
+// 0x0000001C InGameController/waitformatch_json InGameController/MockServer::wait_for_match_request(System.Int32)
+extern void MockServer_wait_for_match_request_m461FE88D66B363CD702BC9BA03A15847BEA19D0A (void);
+// 0x0000001D InGameController/sendpiece_json InGameController/MockServer::send_pos_request(System.Int32,System.Int32,UnityEngine.Vector3)
+extern void MockServer_send_pos_request_m0E2EDDC912FBEB30FD334E9FB1FAA25BD1CB410E (void);
+// 0x0000001E InGameController/checkstatus_json InGameController/MockServer::check_status_request(System.Int32,System.Int32)
+extern void MockServer_check_status_request_mC89608B7BE72C2DDBAA66021E9A16C7E0FCF942D (void);
+// 0x0000001F InGameController/endgame_json InGameController/MockServer::mock_end_game(System.Int32)
+extern void MockServer_mock_end_game_mE121DEE4078E983E1661CA2E498E10245DD044AB (void);
+// 0x00000020 System.Void InGameController/MockServer::.ctor()
+extern void MockServer__ctor_m4929EFF432AD94A593A76012CECABDB09F63751D (void);
+// 0x00000021 System.Void InGameController/<waitformatch_request>d__47::.ctor(System.Int32)
+extern void U3Cwaitformatch_requestU3Ed__47__ctor_m9787C2C28702DE0BA86835730A4544F568D23717 (void);
+// 0x00000022 System.Void InGameController/<waitformatch_request>d__47::System.IDisposable.Dispose()
+extern void U3Cwaitformatch_requestU3Ed__47_System_IDisposable_Dispose_m7B630B0361AE51C2E8827424D95F06AE3C734837 (void);
+// 0x00000023 System.Boolean InGameController/<waitformatch_request>d__47::MoveNext()
+extern void U3Cwaitformatch_requestU3Ed__47_MoveNext_m1B28108B99920AE62BFC9F110C031D15177265E0 (void);
+// 0x00000024 System.Object InGameController/<waitformatch_request>d__47::System.Collections.Generic.IEnumerator<System.Object>.get_Current()
+extern void U3Cwaitformatch_requestU3Ed__47_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mA530B09376F26CFB3B12BFA70F85788871008DF6 (void);
+// 0x00000025 System.Void InGameController/<waitformatch_request>d__47::System.Collections.IEnumerator.Reset()
+extern void U3Cwaitformatch_requestU3Ed__47_System_Collections_IEnumerator_Reset_mD4F17891AE656DD333413A8A002B4A7B2C04BC6B (void);
+// 0x00000026 System.Object InGameController/<waitformatch_request>d__47::System.Collections.IEnumerator.get_Current()
+extern void U3Cwaitformatch_requestU3Ed__47_System_Collections_IEnumerator_get_Current_mD6F1DA2832DF2D466A829203DE1DA2D75905082A (void);
+// 0x00000027 System.Void InGameController/<send_sendpiece_request>d__48::.ctor(System.Int32)
+extern void U3Csend_sendpiece_requestU3Ed__48__ctor_m6C72CFBF4822920901C41E20A44BEBB9D54C864B (void);
+// 0x00000028 System.Void InGameController/<send_sendpiece_request>d__48::System.IDisposable.Dispose()
+extern void U3Csend_sendpiece_requestU3Ed__48_System_IDisposable_Dispose_mAC255AD947CA5751F9B090B8AA1945F8E1E00C2C (void);
+// 0x00000029 System.Boolean InGameController/<send_sendpiece_request>d__48::MoveNext()
+extern void U3Csend_sendpiece_requestU3Ed__48_MoveNext_mF80754D33EFE2FE3FFD9CB9DB9E908E1A75A9439 (void);
+// 0x0000002A System.Object InGameController/<send_sendpiece_request>d__48::System.Collections.Generic.IEnumerator<System.Object>.get_Current()
+extern void U3Csend_sendpiece_requestU3Ed__48_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m2C62BEE396AF93CCC6FCE5550CB72367D7E6D225 (void);
+// 0x0000002B System.Void InGameController/<send_sendpiece_request>d__48::System.Collections.IEnumerator.Reset()
+extern void U3Csend_sendpiece_requestU3Ed__48_System_Collections_IEnumerator_Reset_mD084D443B03E7E0500C8475663B0682CF7C0B63D (void);
+// 0x0000002C System.Object InGameController/<send_sendpiece_request>d__48::System.Collections.IEnumerator.get_Current()
+extern void U3Csend_sendpiece_requestU3Ed__48_System_Collections_IEnumerator_get_Current_mA6F3EAF35CBB4B712052BE7AF217019C181AC927 (void);
+// 0x0000002D System.Void InGameController/<send_checkstatus_request>d__49::.ctor(System.Int32)
+extern void U3Csend_checkstatus_requestU3Ed__49__ctor_m65BEBF15D1717A1722D578088F9B59256689919B (void);
+// 0x0000002E System.Void InGameController/<send_checkstatus_request>d__49::System.IDisposable.Dispose()
+extern void U3Csend_checkstatus_requestU3Ed__49_System_IDisposable_Dispose_m054C4BD3CB47D0AAE36B4776429B64E9F7A77159 (void);
+// 0x0000002F System.Boolean InGameController/<send_checkstatus_request>d__49::MoveNext()
+extern void U3Csend_checkstatus_requestU3Ed__49_MoveNext_m0D6B465E07AD90D6ED570E29ADB7EF15B15D8EF8 (void);
+// 0x00000030 System.Object InGameController/<send_checkstatus_request>d__49::System.Collections.Generic.IEnumerator<System.Object>.get_Current()
+extern void U3Csend_checkstatus_requestU3Ed__49_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m46942194D5F769D92F135456E13CD3ECBB4034B8 (void);
+// 0x00000031 System.Void InGameController/<send_checkstatus_request>d__49::System.Collections.IEnumerator.Reset()
+extern void U3Csend_checkstatus_requestU3Ed__49_System_Collections_IEnumerator_Reset_m94169493676177D4FA73A33B011442563DE89D26 (void);
+// 0x00000032 System.Object InGameController/<send_checkstatus_request>d__49::System.Collections.IEnumerator.get_Current()
+extern void U3Csend_checkstatus_requestU3Ed__49_System_Collections_IEnumerator_get_Current_m0E6DFA144E88B94F6D59C1AF32E32F17A39FE9BE (void);
+// 0x00000033 System.Void InGameController/<send_endgame_request>d__50::.ctor(System.Int32)
+extern void U3Csend_endgame_requestU3Ed__50__ctor_mC11A24CD8883FA35FF8562F0175480E61B225666 (void);
+// 0x00000034 System.Void InGameController/<send_endgame_request>d__50::System.IDisposable.Dispose()
+extern void U3Csend_endgame_requestU3Ed__50_System_IDisposable_Dispose_mFD27A898C11E0480C33B017F05B0885CC6B426A1 (void);
+// 0x00000035 System.Boolean InGameController/<send_endgame_request>d__50::MoveNext()
+extern void U3Csend_endgame_requestU3Ed__50_MoveNext_m5681F22E2B6DE7B9BAE526FE8B3F266AFC0FFB59 (void);
+// 0x00000036 System.Object InGameController/<send_endgame_request>d__50::System.Collections.Generic.IEnumerator<System.Object>.get_Current()
+extern void U3Csend_endgame_requestU3Ed__50_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mA044ACE6CA402489CB7BCC5FE3585DD9F1E29594 (void);
+// 0x00000037 System.Void InGameController/<send_endgame_request>d__50::System.Collections.IEnumerator.Reset()
+extern void U3Csend_endgame_requestU3Ed__50_System_Collections_IEnumerator_Reset_mC803497109F5DF8B056AAC724ECC59A6E2E158FE (void);
+// 0x00000038 System.Object InGameController/<send_endgame_request>d__50::System.Collections.IEnumerator.get_Current()
+extern void U3Csend_endgame_requestU3Ed__50_System_Collections_IEnumerator_get_Current_m3C0375C24646EB874DD943C9A2860D6FCD633051 (void);
+// 0x00000039 System.Void keepData::Awake()
+extern void keepData_Awake_mD6F04918E3302C9C4C69BC573D476AA2F977E6F1 (void);
+// 0x0000003A System.Void keepData::.ctor()
+extern void keepData__ctor_mEE795A037CD4BAB1F7DA03A07C607FD02BED554B (void);
+// 0x0000003B System.Void PostGameController::Start()
+extern void PostGameController_Start_mE47ECFE6D664E56FF1F4BC712286958A070264FB (void);
+// 0x0000003C System.Void PostGameController::Update()
+extern void PostGameController_Update_mAF22A4DDF1F648B179B1D0CA643D849B898F3553 (void);
+// 0x0000003D System.Void PostGameController::return_button_onClick()
+extern void PostGameController_return_button_onClick_m0124A2B17EBD60FFD939FAC38B5C245138237355 (void);
+// 0x0000003E System.Void PostGameController::modify_hint_text(System.String,System.Int32)
+extern void PostGameController_modify_hint_text_m8F1B8F8A539EADE25B21C64DDCB75BAE8B283CA9 (void);
+// 0x0000003F System.Collections.IEnumerator PostGameController::send_checkstats_request(System.Int32)
+extern void PostGameController_send_checkstats_request_mC844C0F7244A26049CF3537D1DA13D7EEBE51538 (void);
+// 0x00000040 System.Collections.IEnumerator PostGameController::send_clearrecords_request(System.Int32)
+extern void PostGameController_send_clearrecords_request_m90734404A83869A3953616D1BB0CB8B819207B91 (void);
+// 0x00000041 System.Void PostGameController::.ctor()
+extern void PostGameController__ctor_m1EBD7932D9CD3A82080DC723B6A88A1A7271EA2E (void);
+// 0x00000042 System.Void PostGameController/checkstats_json::.ctor()
+extern void checkstats_json__ctor_m0892078FB6F4DFC2B6081113C910A2A9D1770D61 (void);
+// 0x00000043 System.Void PostGameController/clearrecords_json::.ctor()
+extern void clearrecords_json__ctor_m870D4D35D1C90BC3DB1E4C951C07FB5A41CEB994 (void);
+// 0x00000044 PostGameController/checkstats_json PostGameController/MockServer::check_stats_request(System.Int32)
+extern void MockServer_check_stats_request_mD63B49826E6FE98C5A3CFBC1A1D02501FAE7C31F (void);
+// 0x00000045 PostGameController/clearrecords_json PostGameController/MockServer::mock_clear_records(System.Int32)
+extern void MockServer_mock_clear_records_mD017D4FEEDB74CFE2C1A9C428D8A179E888DE40B (void);
+// 0x00000046 System.Void PostGameController/MockServer::.ctor()
+extern void MockServer__ctor_m5061170ADC69229C070294B310ACBE6B434A5E05 (void);
+// 0x00000047 System.Void PostGameController/<send_checkstats_request>d__15::.ctor(System.Int32)
+extern void U3Csend_checkstats_requestU3Ed__15__ctor_m2C503CD50C6EBE44F0AB7814AF3B259EB1EC2530 (void);
+// 0x00000048 System.Void PostGameController/<send_checkstats_request>d__15::System.IDisposable.Dispose()
+extern void U3Csend_checkstats_requestU3Ed__15_System_IDisposable_Dispose_m2AEE718718C5C6F0AB5569C4DE772BE4AAD85FAB (void);
+// 0x00000049 System.Boolean PostGameController/<send_checkstats_request>d__15::MoveNext()
+extern void U3Csend_checkstats_requestU3Ed__15_MoveNext_m0A27197C6761F7A4F2A3D6F254CC1B230F6392ED (void);
+// 0x0000004A System.Object PostGameController/<send_checkstats_request>d__15::System.Collections.Generic.IEnumerator<System.Object>.get_Current()
+extern void U3Csend_checkstats_requestU3Ed__15_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mDAE2D01D37247C8AFD2E0A4F287F1AB0ACDE629A (void);
+// 0x0000004B System.Void PostGameController/<send_checkstats_request>d__15::System.Collections.IEnumerator.Reset()
+extern void U3Csend_checkstats_requestU3Ed__15_System_Collections_IEnumerator_Reset_m522780C236E7050D529A43C66A244C3C993118FF (void);
+// 0x0000004C System.Object PostGameController/<send_checkstats_request>d__15::System.Collections.IEnumerator.get_Current()
+extern void U3Csend_checkstats_requestU3Ed__15_System_Collections_IEnumerator_get_Current_m64ACF8124D46DBAB855FDCC1F6BC08889506A840 (void);
+// 0x0000004D System.Void PostGameController/<send_clearrecords_request>d__16::.ctor(System.Int32)
+extern void U3Csend_clearrecords_requestU3Ed__16__ctor_mC404C79011AD12C1A7D6D36835EC9D70C69D6C7A (void);
+// 0x0000004E System.Void PostGameController/<send_clearrecords_request>d__16::System.IDisposable.Dispose()
+extern void U3Csend_clearrecords_requestU3Ed__16_System_IDisposable_Dispose_m4C3A190E6FBF559C55F1CB73C3433E2E073CA5FA (void);
+// 0x0000004F System.Boolean PostGameController/<send_clearrecords_request>d__16::MoveNext()
+extern void U3Csend_clearrecords_requestU3Ed__16_MoveNext_mA762935E3869A4D8DE7C298F0A36192617D0B50E (void);
+// 0x00000050 System.Object PostGameController/<send_clearrecords_request>d__16::System.Collections.Generic.IEnumerator<System.Object>.get_Current()
+extern void U3Csend_clearrecords_requestU3Ed__16_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m12C0DBF31E99927D3D1B183DF287DE10C4A04825 (void);
+// 0x00000051 System.Void PostGameController/<send_clearrecords_request>d__16::System.Collections.IEnumerator.Reset()
+extern void U3Csend_clearrecords_requestU3Ed__16_System_Collections_IEnumerator_Reset_mE26A32D8676CC130F727CEAEA6D7DE8D271D1154 (void);
+// 0x00000052 System.Object PostGameController/<send_clearrecords_request>d__16::System.Collections.IEnumerator.get_Current()
+extern void U3Csend_clearrecords_requestU3Ed__16_System_Collections_IEnumerator_get_Current_mA193497E7A84009E2E560D49C47FD61F770BC44A (void);
+// 0x00000053 System.Void PreGameController::Start()
+extern void PreGameController_Start_mBF487BD32C4BC196B393C245362DD9F70E175F31 (void);
+// 0x00000054 System.Void PreGameController::Update()
+extern void PreGameController_Update_mE75FAC50810FE173298AFFED9464B1EA3F55B8FA (void);
+// 0x00000055 System.Void PreGameController::start_button_onClick()
+extern void PreGameController_start_button_onClick_mC27EC013810373B86AF5E1DE3B80AEC8CD0C705B (void);
+// 0x00000056 System.Void PreGameController::reset_button_onClick()
+extern void PreGameController_reset_button_onClick_m46D960362A764D4C0DE79E29A23ACCEA84821C74 (void);
+// 0x00000057 System.Void PreGameController::test_button_onClick()
+extern void PreGameController_test_button_onClick_mE60B20547456035E155C669F46EEE3B824EB64C2 (void);
+// 0x00000058 System.Collections.IEnumerator PreGameController::GetRequest()
+extern void PreGameController_GetRequest_mF56302D4B2FE4C5B82E5A9CD07C522CF341C6005 (void);
+// 0x00000059 System.Collections.IEnumerator PreGameController::gamestart_request(System.Int32)
+extern void PreGameController_gamestart_request_m69300209721B4F2A26D09DFD92ABA6510EC5E37A (void);
+// 0x0000005A System.Void PreGameController::modify_hint_text(System.String,System.Int32)
+extern void PreGameController_modify_hint_text_mCE1C60E2D0D4338915943747F43FC1161D01228E (void);
+// 0x0000005B System.Void PreGameController::.ctor()
+extern void PreGameController__ctor_m150D06A66F9EFD59C60E375F05BE2F85BDB6EFCA (void);
+// 0x0000005C System.Void PreGameController/gamestart_json::.ctor()
+extern void gamestart_json__ctor_mAF465E2438130EFA1654F95CEB78994D45B5CA4D (void);
+// 0x0000005D System.Boolean PreGameController/BypassCertificate::ValidateCertificate(System.Byte[])
+extern void BypassCertificate_ValidateCertificate_m7514BBE9B653AC07818FF8979B9637DA15F8CC92 (void);
+// 0x0000005E System.Void PreGameController/BypassCertificate::.ctor()
+extern void BypassCertificate__ctor_mFF8B2206A1EACA358C44365DC1B519B38B8B5F75 (void);
+// 0x0000005F System.Void PreGameController/<GetRequest>d__18::.ctor(System.Int32)
+extern void U3CGetRequestU3Ed__18__ctor_m3C889A4B0F6FC553C2E2AF710D3B6C2FF83BD10D (void);
+// 0x00000060 System.Void PreGameController/<GetRequest>d__18::System.IDisposable.Dispose()
+extern void U3CGetRequestU3Ed__18_System_IDisposable_Dispose_m137F8D35058AFF9A9DE158CC06D6FC41F29F6CD7 (void);
+// 0x00000061 System.Boolean PreGameController/<GetRequest>d__18::MoveNext()
+extern void U3CGetRequestU3Ed__18_MoveNext_mBF6897DC4CBB49414DBA005501127DA216CDE25E (void);
+// 0x00000062 System.Void PreGameController/<GetRequest>d__18::<>m__Finally1()
+extern void U3CGetRequestU3Ed__18_U3CU3Em__Finally1_m59645BAEC9E89E78424D2F0FF28740CFA29EA692 (void);
+// 0x00000063 System.Object PreGameController/<GetRequest>d__18::System.Collections.Generic.IEnumerator<System.Object>.get_Current()
+extern void U3CGetRequestU3Ed__18_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m2559BC4F4BD9767A6BAD934B0D61F9E39E306C17 (void);
+// 0x00000064 System.Void PreGameController/<GetRequest>d__18::System.Collections.IEnumerator.Reset()
+extern void U3CGetRequestU3Ed__18_System_Collections_IEnumerator_Reset_mC3BFBFDDC60B9D00430C1B473A72F16C9A34D5A7 (void);
+// 0x00000065 System.Object PreGameController/<GetRequest>d__18::System.Collections.IEnumerator.get_Current()
+extern void U3CGetRequestU3Ed__18_System_Collections_IEnumerator_get_Current_mC33F2ED390775738080C7ECF7FA8021C0E5DF9B0 (void);
+// 0x00000066 System.Void PreGameController/<gamestart_request>d__19::.ctor(System.Int32)
+extern void U3Cgamestart_requestU3Ed__19__ctor_m59270953E9ED26FDBEC9B35D016C63173EDD50E0 (void);
+// 0x00000067 System.Void PreGameController/<gamestart_request>d__19::System.IDisposable.Dispose()
+extern void U3Cgamestart_requestU3Ed__19_System_IDisposable_Dispose_m7EA69DEC3D1454CEAA9F30C9B2E0339CE8B4B12A (void);
+// 0x00000068 System.Boolean PreGameController/<gamestart_request>d__19::MoveNext()
+extern void U3Cgamestart_requestU3Ed__19_MoveNext_m1B53EFA721BDE727E50770910019E31D9A745E82 (void);
+// 0x00000069 System.Void PreGameController/<gamestart_request>d__19::<>m__Finally1()
+extern void U3Cgamestart_requestU3Ed__19_U3CU3Em__Finally1_mF187C9AF24446A6CB76B6A8F08CD8514B2967E39 (void);
+// 0x0000006A System.Object PreGameController/<gamestart_request>d__19::System.Collections.Generic.IEnumerator<System.Object>.get_Current()
+extern void U3Cgamestart_requestU3Ed__19_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mB543751DDFBAB1D23D9EF67EC209186819F0169D (void);
+// 0x0000006B System.Void PreGameController/<gamestart_request>d__19::System.Collections.IEnumerator.Reset()
+extern void U3Cgamestart_requestU3Ed__19_System_Collections_IEnumerator_Reset_m4CA3370129CE072A2E0F69CC8CC152FFB4C513A7 (void);
+// 0x0000006C System.Object PreGameController/<gamestart_request>d__19::System.Collections.IEnumerator.get_Current()
+extern void U3Cgamestart_requestU3Ed__19_System_Collections_IEnumerator_get_Current_m0F503233B372CC48343DE03E2B92F673213ED137 (void);
+static Il2CppMethodPointer s_methodPointers[108] = 
+{
+	icp_Start_m644D2BEF8921AB79D792B60540F9FC6110831DF5,
+	icp_Update_mAE23FE4AB96AB92668AB3E924824AC5E74C878C9,
+	icp__ctor_mB0B055F4A22EEFEAB93AD2C224F6323A7F354959,
+	InGameController_Start_m46505BBB6AE468B7181E841BDC06A7723ED32E66,
+	InGameController_Update_m29C7B7061C21BC79E6593FDAE6B734C2A53AAA39,
+	InGameController_exit_button_onClick_mF32E421D2769886BA3A1F673BDAB38205C229E22,
+	InGameController_end_scene_m8C6A80582E6859EB18A2F310A43557AF2990D597,
+	InGameController_modify_hint_text_m94F8506DE02F49452786C82D5BBEE68FB9E55CA7,
+	InGameController_new_piece_in_range_m7D2C1092453E357364438448405AB0B9A23D2EE4,
+	InGameController_confirm_button_OnClick_mEAB934B58F9A74B807CB4F6C0ABF68D2A0976D0B,
+	InGameController_marker_1_tracked_m4A2F5C52F5C0673F61B6E3725AAD78320C658F65,
+	InGameController_marker_2_tracked_mA1BBE9E686C42B0EE996A435B7E1E7F38BBC82B9,
+	InGameController_marker_4_tracked_mB2B90222DEAAE92879F028038D32072B2C41A725,
+	InGameController_new_piece_target_tracked_mD7C3FF8ED3F1663543255F63A3F8B0CC83CC5AA1,
+	InGameController_transfer_to_chessboard_coordinate_mB30A9C2E6901050E15C1DB18B50EAFFC5BBF8AA9,
+	InGameController_add_piece_m710410E3CDB323480483E6E60E111C07DE506B84,
+	InGameController_waitformatch_request_m65D82C899B8D3C088A7CABE8746082A703676F37,
+	InGameController_send_sendpiece_request_m73945E42881BB95641FE84FE9BFA1F652DCBAD36,
+	InGameController_send_checkstatus_request_m7900B74E3E6DFBA7EE92AECEDA14C836514D315B,
+	InGameController_send_endgame_request_m49BA12110C8E0ADDAD417AC7C1A73970EF0FBB57,
+	InGameController__ctor_m7906CF9A5F69CD561B5E2F4DD0543F7EB3F01700,
+	MarkerTrackingSystem__ctor_m0EC92277D0930773FBF34777126E56699D8C0D22,
+	MarkerTrackingSystem_all_markers_tracked_mC24351A06BA209A06A8B322256B759148817E4CA,
+	waitformatch_json__ctor_m9A735B3138B1112EAA83593E7FACDA51BE11D37B,
+	sendpiece_json__ctor_mF3A690A252E15D61E5B0795CADBC6D6AEE758891,
+	checkstatus_json__ctor_mC5CC8F8DEC8C77005AEE7C9D0F40837416B97AF1,
+	endgame_json__ctor_m6D44EFF0D78DC309FC479053A44D49D7F6CA1112,
+	MockServer_wait_for_match_request_m461FE88D66B363CD702BC9BA03A15847BEA19D0A,
+	MockServer_send_pos_request_m0E2EDDC912FBEB30FD334E9FB1FAA25BD1CB410E,
+	MockServer_check_status_request_mC89608B7BE72C2DDBAA66021E9A16C7E0FCF942D,
+	MockServer_mock_end_game_mE121DEE4078E983E1661CA2E498E10245DD044AB,
+	MockServer__ctor_m4929EFF432AD94A593A76012CECABDB09F63751D,
+	U3Cwaitformatch_requestU3Ed__47__ctor_m9787C2C28702DE0BA86835730A4544F568D23717,
+	U3Cwaitformatch_requestU3Ed__47_System_IDisposable_Dispose_m7B630B0361AE51C2E8827424D95F06AE3C734837,
+	U3Cwaitformatch_requestU3Ed__47_MoveNext_m1B28108B99920AE62BFC9F110C031D15177265E0,
+	U3Cwaitformatch_requestU3Ed__47_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mA530B09376F26CFB3B12BFA70F85788871008DF6,
+	U3Cwaitformatch_requestU3Ed__47_System_Collections_IEnumerator_Reset_mD4F17891AE656DD333413A8A002B4A7B2C04BC6B,
+	U3Cwaitformatch_requestU3Ed__47_System_Collections_IEnumerator_get_Current_mD6F1DA2832DF2D466A829203DE1DA2D75905082A,
+	U3Csend_sendpiece_requestU3Ed__48__ctor_m6C72CFBF4822920901C41E20A44BEBB9D54C864B,
+	U3Csend_sendpiece_requestU3Ed__48_System_IDisposable_Dispose_mAC255AD947CA5751F9B090B8AA1945F8E1E00C2C,
+	U3Csend_sendpiece_requestU3Ed__48_MoveNext_mF80754D33EFE2FE3FFD9CB9DB9E908E1A75A9439,
+	U3Csend_sendpiece_requestU3Ed__48_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m2C62BEE396AF93CCC6FCE5550CB72367D7E6D225,
+	U3Csend_sendpiece_requestU3Ed__48_System_Collections_IEnumerator_Reset_mD084D443B03E7E0500C8475663B0682CF7C0B63D,
+	U3Csend_sendpiece_requestU3Ed__48_System_Collections_IEnumerator_get_Current_mA6F3EAF35CBB4B712052BE7AF217019C181AC927,
+	U3Csend_checkstatus_requestU3Ed__49__ctor_m65BEBF15D1717A1722D578088F9B59256689919B,
+	U3Csend_checkstatus_requestU3Ed__49_System_IDisposable_Dispose_m054C4BD3CB47D0AAE36B4776429B64E9F7A77159,
+	U3Csend_checkstatus_requestU3Ed__49_MoveNext_m0D6B465E07AD90D6ED570E29ADB7EF15B15D8EF8,
+	U3Csend_checkstatus_requestU3Ed__49_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m46942194D5F769D92F135456E13CD3ECBB4034B8,
+	U3Csend_checkstatus_requestU3Ed__49_System_Collections_IEnumerator_Reset_m94169493676177D4FA73A33B011442563DE89D26,
+	U3Csend_checkstatus_requestU3Ed__49_System_Collections_IEnumerator_get_Current_m0E6DFA144E88B94F6D59C1AF32E32F17A39FE9BE,
+	U3Csend_endgame_requestU3Ed__50__ctor_mC11A24CD8883FA35FF8562F0175480E61B225666,
+	U3Csend_endgame_requestU3Ed__50_System_IDisposable_Dispose_mFD27A898C11E0480C33B017F05B0885CC6B426A1,
+	U3Csend_endgame_requestU3Ed__50_MoveNext_m5681F22E2B6DE7B9BAE526FE8B3F266AFC0FFB59,
+	U3Csend_endgame_requestU3Ed__50_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mA044ACE6CA402489CB7BCC5FE3585DD9F1E29594,
+	U3Csend_endgame_requestU3Ed__50_System_Collections_IEnumerator_Reset_mC803497109F5DF8B056AAC724ECC59A6E2E158FE,
+	U3Csend_endgame_requestU3Ed__50_System_Collections_IEnumerator_get_Current_m3C0375C24646EB874DD943C9A2860D6FCD633051,
+	keepData_Awake_mD6F04918E3302C9C4C69BC573D476AA2F977E6F1,
+	keepData__ctor_mEE795A037CD4BAB1F7DA03A07C607FD02BED554B,
+	PostGameController_Start_mE47ECFE6D664E56FF1F4BC712286958A070264FB,
+	PostGameController_Update_mAF22A4DDF1F648B179B1D0CA643D849B898F3553,
+	PostGameController_return_button_onClick_m0124A2B17EBD60FFD939FAC38B5C245138237355,
+	PostGameController_modify_hint_text_m8F1B8F8A539EADE25B21C64DDCB75BAE8B283CA9,
+	PostGameController_send_checkstats_request_mC844C0F7244A26049CF3537D1DA13D7EEBE51538,
+	PostGameController_send_clearrecords_request_m90734404A83869A3953616D1BB0CB8B819207B91,
+	PostGameController__ctor_m1EBD7932D9CD3A82080DC723B6A88A1A7271EA2E,
+	checkstats_json__ctor_m0892078FB6F4DFC2B6081113C910A2A9D1770D61,
+	clearrecords_json__ctor_m870D4D35D1C90BC3DB1E4C951C07FB5A41CEB994,
+	MockServer_check_stats_request_mD63B49826E6FE98C5A3CFBC1A1D02501FAE7C31F,
+	MockServer_mock_clear_records_mD017D4FEEDB74CFE2C1A9C428D8A179E888DE40B,
+	MockServer__ctor_m5061170ADC69229C070294B310ACBE6B434A5E05,
+	U3Csend_checkstats_requestU3Ed__15__ctor_m2C503CD50C6EBE44F0AB7814AF3B259EB1EC2530,
+	U3Csend_checkstats_requestU3Ed__15_System_IDisposable_Dispose_m2AEE718718C5C6F0AB5569C4DE772BE4AAD85FAB,
+	U3Csend_checkstats_requestU3Ed__15_MoveNext_m0A27197C6761F7A4F2A3D6F254CC1B230F6392ED,
+	U3Csend_checkstats_requestU3Ed__15_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mDAE2D01D37247C8AFD2E0A4F287F1AB0ACDE629A,
+	U3Csend_checkstats_requestU3Ed__15_System_Collections_IEnumerator_Reset_m522780C236E7050D529A43C66A244C3C993118FF,
+	U3Csend_checkstats_requestU3Ed__15_System_Collections_IEnumerator_get_Current_m64ACF8124D46DBAB855FDCC1F6BC08889506A840,
+	U3Csend_clearrecords_requestU3Ed__16__ctor_mC404C79011AD12C1A7D6D36835EC9D70C69D6C7A,
+	U3Csend_clearrecords_requestU3Ed__16_System_IDisposable_Dispose_m4C3A190E6FBF559C55F1CB73C3433E2E073CA5FA,
+	U3Csend_clearrecords_requestU3Ed__16_MoveNext_mA762935E3869A4D8DE7C298F0A36192617D0B50E,
+	U3Csend_clearrecords_requestU3Ed__16_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m12C0DBF31E99927D3D1B183DF287DE10C4A04825,
+	U3Csend_clearrecords_requestU3Ed__16_System_Collections_IEnumerator_Reset_mE26A32D8676CC130F727CEAEA6D7DE8D271D1154,
+	U3Csend_clearrecords_requestU3Ed__16_System_Collections_IEnumerator_get_Current_mA193497E7A84009E2E560D49C47FD61F770BC44A,
+	PreGameController_Start_mBF487BD32C4BC196B393C245362DD9F70E175F31,
+	PreGameController_Update_mE75FAC50810FE173298AFFED9464B1EA3F55B8FA,
+	PreGameController_start_button_onClick_mC27EC013810373B86AF5E1DE3B80AEC8CD0C705B,
+	PreGameController_reset_button_onClick_m46D960362A764D4C0DE79E29A23ACCEA84821C74,
+	PreGameController_test_button_onClick_mE60B20547456035E155C669F46EEE3B824EB64C2,
+	PreGameController_GetRequest_mF56302D4B2FE4C5B82E5A9CD07C522CF341C6005,
+	PreGameController_gamestart_request_m69300209721B4F2A26D09DFD92ABA6510EC5E37A,
+	PreGameController_modify_hint_text_mCE1C60E2D0D4338915943747F43FC1161D01228E,
+	PreGameController__ctor_m150D06A66F9EFD59C60E375F05BE2F85BDB6EFCA,
+	gamestart_json__ctor_mAF465E2438130EFA1654F95CEB78994D45B5CA4D,
+	BypassCertificate_ValidateCertificate_m7514BBE9B653AC07818FF8979B9637DA15F8CC92,
+	BypassCertificate__ctor_mFF8B2206A1EACA358C44365DC1B519B38B8B5F75,
+	U3CGetRequestU3Ed__18__ctor_m3C889A4B0F6FC553C2E2AF710D3B6C2FF83BD10D,
+	U3CGetRequestU3Ed__18_System_IDisposable_Dispose_m137F8D35058AFF9A9DE158CC06D6FC41F29F6CD7,
+	U3CGetRequestU3Ed__18_MoveNext_mBF6897DC4CBB49414DBA005501127DA216CDE25E,
+	U3CGetRequestU3Ed__18_U3CU3Em__Finally1_m59645BAEC9E89E78424D2F0FF28740CFA29EA692,
+	U3CGetRequestU3Ed__18_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m2559BC4F4BD9767A6BAD934B0D61F9E39E306C17,
+	U3CGetRequestU3Ed__18_System_Collections_IEnumerator_Reset_mC3BFBFDDC60B9D00430C1B473A72F16C9A34D5A7,
+	U3CGetRequestU3Ed__18_System_Collections_IEnumerator_get_Current_mC33F2ED390775738080C7ECF7FA8021C0E5DF9B0,
+	U3Cgamestart_requestU3Ed__19__ctor_m59270953E9ED26FDBEC9B35D016C63173EDD50E0,
+	U3Cgamestart_requestU3Ed__19_System_IDisposable_Dispose_m7EA69DEC3D1454CEAA9F30C9B2E0339CE8B4B12A,
+	U3Cgamestart_requestU3Ed__19_MoveNext_m1B53EFA721BDE727E50770910019E31D9A745E82,
+	U3Cgamestart_requestU3Ed__19_U3CU3Em__Finally1_mF187C9AF24446A6CB76B6A8F08CD8514B2967E39,
+	U3Cgamestart_requestU3Ed__19_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mB543751DDFBAB1D23D9EF67EC209186819F0169D,
+	U3Cgamestart_requestU3Ed__19_System_Collections_IEnumerator_Reset_m4CA3370129CE072A2E0F69CC8CC152FFB4C513A7,
+	U3Cgamestart_requestU3Ed__19_System_Collections_IEnumerator_get_Current_m0F503233B372CC48343DE03E2B92F673213ED137,
+};
+static const int32_t s_InvokerIndices[108] = 
+{
+	5146,
+	5146,
+	5146,
+	5146,
+	5146,
+	5146,
+	5146,
+	2273,
+	4968,
+	5146,
+	5146,
+	5146,
+	5146,
+	5146,
+	3761,
+	2351,
+	3617,
+	1064,
+	1790,
+	3617,
+	5146,
+	5146,
+	4968,
+	5146,
+	5146,
+	5146,
+	5146,
+	3617,
+	1064,
+	1790,
+	3617,
+	5146,
+	4053,
+	5146,
+	4968,
+	5040,
+	5146,
+	5040,
+	4053,
+	5146,
+	4968,
+	5040,
+	5146,
+	5040,
+	4053,
+	5146,
+	4968,
+	5040,
+	5146,
+	5040,
+	4053,
+	5146,
+	4968,
+	5040,
+	5146,
+	5040,
+	5146,
+	5146,
+	5146,
+	5146,
+	5146,
+	2273,
+	3617,
+	3617,
+	5146,
+	5146,
+	5146,
+	3617,
+	3617,
+	5146,
+	4053,
+	5146,
+	4968,
+	5040,
+	5146,
+	5040,
+	4053,
+	5146,
+	4968,
+	5040,
+	5146,
+	5040,
+	5146,
+	5146,
+	5146,
+	5146,
+	5146,
+	5040,
+	3617,
+	2273,
+	5146,
+	5146,
+	2935,
+	5146,
+	4053,
+	5146,
+	4968,
+	5146,
+	5040,
+	5146,
+	5040,
+	4053,
+	5146,
+	4968,
+	5146,
+	5040,
+	5146,
+	5040,
+};
+IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
+const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
+{
+	"Assembly-CSharp.dll",
+	108,
+	s_methodPointers,
+	0,
+	NULL,
+	s_InvokerIndices,
+	0,
+	NULL,
+	0,
+	NULL,
+	0,
+	NULL,
+	NULL,
+	NULL, // module initializer,
+	NULL,
+	NULL,
+	NULL,
+};

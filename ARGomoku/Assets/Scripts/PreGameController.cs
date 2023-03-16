@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Networking;
 
+using MyGlobal;
+
 
 public class PreGameController : MonoBehaviour
 {
@@ -33,8 +35,6 @@ public class PreGameController : MonoBehaviour
     gamestart_json gamestart_response = new gamestart_json();
     bool gamestart_request_done = true;
 
-    private MockServer mock_server = new MockServer();
-
     // Start is called before the first frame update
     void Start()
     {
@@ -55,7 +55,6 @@ public class PreGameController : MonoBehaviour
             case Stage_Codes.do_nothing:
                 if (start_button_clicked){
                     stage = Stage_Codes.start_game;
-                    modify_hint_text("start button clicked");
                 }
                 else if (reset_button_clicked){
                     stage = Stage_Codes.reset_text;
@@ -95,6 +94,7 @@ public class PreGameController : MonoBehaviour
                 stage = Stage_Codes.do_nothing;
                 break;
             case Stage_Codes.start_game:
+                modify_hint_text("start button clicked");
                 gamestart_request_done = false;
                 StartCoroutine(gamestart_request(ruleid));
                 stage = Stage_Codes.start_game_wait;
@@ -154,9 +154,11 @@ public class PreGameController : MonoBehaviour
 
      IEnumerator GetRequest()
     {
-        string uri = "https://eecs388.org";
+        string uri = "https://18.218.77.102/hello/";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
+            webRequest.certificateHandler = new MyGlobal.ControllerHelper.BypassCertificate();
+
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
 
@@ -174,16 +176,39 @@ public class PreGameController : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                      get_webpage_response_text = pages[page] + ":\nReceived: " + webRequest.downloadHandler.text;
+                     // TODO: jsonify the gotten result text
                      get_webpage_done = true; // Please put this line after getting the result
                     break;
             }
         }
     }
     IEnumerator gamestart_request(int send_ruleid){
-        // TODO: Send request to real server and phase responded json to c# class.
-        yield return new WaitForSeconds(2);
-        gamestart_response = mock_server.check_gamestart_request(send_ruleid);
-        gamestart_request_done = true; // Please put this line after putting the result into json class
+        // POST
+        string uri = "https://18.217.77.102/gamestart/";
+        // TODO: remove hard-defined rules
+        WWWForm form = new WWWForm();
+        form.AddField("ruleid", send_ruleid);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
+        {
+            webRequest.certificateHandler = new MyGlobal.ControllerHelper.BypassCertificate();
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                modify_hint_text("POST gamestart request error: " + webRequest.error);
+                gamestart_request_done = true;
+            }
+            else
+            {
+                modify_hint_text("POST gamestart request success!");
+                gamestart_response = JsonUtility.FromJson<gamestart_json>(webRequest.downloadHandler.text);
+                gamestart_request_done = true; // Please put this line after putting the result into json class
+            }
+        }
+
+
     
     }
 
@@ -201,16 +226,6 @@ public class PreGameController : MonoBehaviour
         public gamestart_json()
         {
             userid = 0;
-        }
-    }
-
-    public class MockServer
-    {
-        public gamestart_json check_gamestart_request(int send_ruleid)
-        {
-            gamestart_json result = new gamestart_json();
-            result.userid = 2;
-            return result;
         }
     }
 }
