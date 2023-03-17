@@ -15,18 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import hello, ingame
+from app.views import hello, pregame, ingame, postgame
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', hello.hello, name='test'),
     # 1. Pre-Game
-    path('gamestart/', ingame.gamestart, name='gamestart'),
+    path('gamestart/', pregame.gamestart, name='gamestart'),
     # 2. In-Game
     path('waitformatch/', ingame.waitformatch, name='waitformatch'),
     path('sendpiece/', ingame.sendpiece, name='sendpiece'),
     path('checkstatus/', ingame.checkstatus, name='checkstatus'),
     path('endgame/', ingame.endgame, name='endgame'),
     # 3. Post-Game
-    path('clearrecords/', ingame.clearrecords, name='clearrecords'),
+    path('clearrecords/', postgame.clearrecords, name='clearrecords'),
 ]
