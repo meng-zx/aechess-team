@@ -1,8 +1,10 @@
 GomokuBackend/env
 GomokuBackend/static
-GomokuBackend/routing/__pycache__
-GomokuBackend/app/__pycache__
-GomokuBackend/app/views/__pycache__
+# GomokuBackend/routing/__pycache__
+# GomokuBackend/app/__pycache__
+# GomokuBackend/app/views/__pycache__
+__pycache__
+GomokuBackend/log
 
 
 ARGomoku/Packages/com.ptc.vuforia.engine-10.13.3.tgz

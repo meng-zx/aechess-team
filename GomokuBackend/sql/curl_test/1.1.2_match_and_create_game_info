@@ -1,3 +1,0 @@
-curl --insecure -X POST http://localhost:8000/gamestart/ \
-   -H 'Content-Type: application/json' \
-   -d '{"ruleid": 2}'
