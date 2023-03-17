@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -102,13 +103,14 @@ public class PreGameController : MonoBehaviour
             case Stage_Codes.start_game_wait:
                 if(!gamestart_request_done){
                     // wait
+                    // modify_hint_text("wait here");
                 }
                 else{
                     StopCoroutine(gamestart_request(ruleid));
                     start_button_clicked = false;
                     userid = gamestart_response.userid;
-                    modify_hint_text("userid: " + userid);
                     GameObject.Find("StartInfo").GetComponent<keepData>().userid = userid;
+                    modify_hint_text("userid received: " + userid);
                     SceneManager.LoadScene("Scenes/InGame");
                     
                    
@@ -184,7 +186,7 @@ public class PreGameController : MonoBehaviour
     }
     IEnumerator gamestart_request(int send_ruleid){
         // POST
-        string uri = "https://18.217.77.102/gamestart/";
+        string uri = "https://18.218.77.102/gamestart/";
         // TODO: remove hard-defined rules
         WWWForm form = new WWWForm();
         form.AddField("ruleid", send_ruleid);
@@ -198,7 +200,7 @@ public class PreGameController : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 modify_hint_text("POST gamestart request error: " + webRequest.error);
-                gamestart_request_done = true;
+                // gamestart_request_done = true;
             }
             else
             {

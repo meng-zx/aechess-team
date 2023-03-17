@@ -11,7 +11,7 @@ using MyGlobal;
 
 public class InGameController : MonoBehaviour
 {
-    public string server_ip_address = "18.217.77.102";
+    public string server_ip_address = "18.218.77.102";
     public GameObject Chessboard;
     public TextMeshProUGUI Hint_Text_Box;
     public Button confirm_button;
@@ -24,7 +24,6 @@ public class InGameController : MonoBehaviour
 
     // private HttpRequestHandler http_request_handler;
     private int userid;
-    private int gameid;
     private bool prev_piece_flag = false;
     private Vector3 Prev_new_piece = new Vector3(0, 0, 0);
     private bool first_play_flag = true;
@@ -107,6 +106,7 @@ public class InGameController : MonoBehaviour
 
                 case Stage_Codes.wait_matching_wait:
                     if (!waitformatch_request_done){
+
                         // wait web request
                     }
                     else{
@@ -115,7 +115,6 @@ public class InGameController : MonoBehaviour
                         {
                             first_play_flag = waitformatch_response.isFirst;
                             prev_piece_flag = !waitformatch_response.isFirst;
-                            gameid = waitformatch_response.gameid;
                             stage = Stage_Codes.find_markers;
                             delay = false;
                         }
@@ -172,7 +171,7 @@ public class InGameController : MonoBehaviour
                             chesspiece.transform.position
                         );
                         sendpiece_request_done = false;
-                        StartCoroutine(send_sendpiece_request(userid, gameid, loc_on_chessboard));
+                        StartCoroutine(send_sendpiece_request(userid, loc_on_chessboard));
                         stage = Stage_Codes.player_turn_wait;
                         delay = false;
                     }
@@ -193,7 +192,7 @@ public class InGameController : MonoBehaviour
                         // wait
                     }
                     else{
-                        StopCoroutine(send_sendpiece_request(userid, gameid, loc_on_chessboard));
+                        StopCoroutine(send_sendpiece_request(userid, loc_on_chessboard));
                         confirm_button_clicked = false;
                         if (sendpiece_response.status == "end game")
                         {
@@ -211,7 +210,7 @@ public class InGameController : MonoBehaviour
                 case Stage_Codes.wait_opponent:
                     modify_hint_text("wait for opponent's turn");
                     checkstatus_request_done = false;
-                    StartCoroutine(send_checkstatus_request(userid, gameid));
+                    StartCoroutine(send_checkstatus_request(userid));
                     stage = Stage_Codes.wait_opponent_wait;
                     delay = false;
                     break;
@@ -220,7 +219,7 @@ public class InGameController : MonoBehaviour
                         //wait
                     }
                     else{
-                        StopCoroutine(send_checkstatus_request(userid, gameid));
+                        StopCoroutine(send_checkstatus_request(userid));
                         if (checkstatus_response.status == "player turn")
                         {
                             stage = Stage_Codes.player_turn;
@@ -433,7 +432,8 @@ public class InGameController : MonoBehaviour
 
     IEnumerator waitformatch_request(int send_userid){
         // POST
-        string uri = "https://" + server_ip_address +  "/waitformatch/";
+        // string uri = "https://" + server_ip_address +  "/waitformatch/";
+        string uri = "https://18.218.77.102/waitformatch/";
         // TODO: remove hard-defined rules
         WWWForm form = new WWWForm();
         form.AddField("userid", send_userid);
@@ -447,7 +447,7 @@ public class InGameController : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 modify_hint_text("POST waitformatch request error: " + webRequest.error);
-                waitformatch_request_done = true;
+                // waitformatch_request_done = true;
             }
             else
             {
@@ -460,19 +460,17 @@ public class InGameController : MonoBehaviour
 
     IEnumerator  send_sendpiece_request(
             int send_userid,
-            int send_gameid,
             Vector3 send_pos
         )
     {
         // POST
-        string uri = "https://" + server_ip_address +  "/sendpiece/";
+        string uri = "https://18.218.77.102/sendpiece/";
         // TODO: remove hard-defined rules
         WWWForm form = new WWWForm();
         form.AddField("userid", send_userid);
-        form.AddField("gameid",  send_gameid);
-        List<float> marker_location = MyGlobal.ControllerHelper.Vector3ToList(send_pos);
-        string marker_location_str =  JsonUtility.ToJson(marker_location);
-        form.AddField("marker_location", marker_location_str);
+        // modify_hint_text(send_pos.ToString()); //(-0.03, 0.02, 0.02)
+
+        form.AddField("marker_location", send_pos.ToString());
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
         {
@@ -483,7 +481,7 @@ public class InGameController : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 modify_hint_text("POST sendpiece request error: " + webRequest.error);
-                sendpiece_request_done = true;
+                // sendpiece_request_done = true;
             }
             else
             {
@@ -494,14 +492,13 @@ public class InGameController : MonoBehaviour
         }
     }
 
-     IEnumerator send_checkstatus_request(int send_userid, int send_gameid)
+     IEnumerator send_checkstatus_request(int send_userid)
     {
         // POST
-        string uri = "https://" + server_ip_address +  "/checkstatus/";
+        string uri = "https://18.218.77.102/checkstatus/";
         // TODO: remove hard-defined rules
         WWWForm form = new WWWForm();
         form.AddField("userid", send_userid);
-        form.AddField("gameid",  send_gameid);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
         {
@@ -512,7 +509,7 @@ public class InGameController : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 modify_hint_text("POST checkstatus request error: " + webRequest.error);
-                checkstatus_request_done = true;
+                // checkstatus_request_done = true;
             }
             else
             {
@@ -526,7 +523,7 @@ public class InGameController : MonoBehaviour
     IEnumerator send_endgame_request(int send_userid)
     {
         // POST
-        string uri = "https://" + server_ip_address +  "/endgame/";
+        string uri = "https://18.218.77.102/endgame/";
         // TODO: remove hard-defined rules
         WWWForm form = new WWWForm();
         form.AddField("userid", send_userid);
@@ -540,7 +537,7 @@ public class InGameController : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 modify_hint_text("POST endgame request error: " + webRequest.error);
-                endgame_request_done = true;
+                // endgame_request_done = true;
             }
             else
             {
@@ -557,13 +554,11 @@ public class InGameController : MonoBehaviour
     {
         public string status;
         public bool isFirst;
-        public int gameid;
 
         public waitformatch_json()
         {
             status = "continue waiting";
             isFirst = true;
-            gameid = -1;
         }
     }
 
@@ -621,7 +616,6 @@ public class InGameController : MonoBehaviour
                     waitformatch_dict[send_userid] = 5;
                     waitformatch_result.status = "matched";
                     waitformatch_result.isFirst = true;
-                    waitformatch_result.gameid = 1;
                 }
             }
             else
@@ -631,14 +625,14 @@ public class InGameController : MonoBehaviour
             return waitformatch_result;
         }
 
-        public sendpiece_json send_pos_request(int send_userid, int send_gameid, Vector3 pos)
+        public sendpiece_json send_pos_request(int send_userid, Vector3 pos)
         {
             sendpiece_json result = new sendpiece_json();
             result.status = "opponent turn";
             return result;
         }
 
-        public checkstatus_json check_status_request(int send_userid, int send_gameid)
+        public checkstatus_json check_status_request(int send_userid)
         {
             checkstatus_json result = new checkstatus_json();
             if (checkstatus_dict.ContainsKey(send_userid))

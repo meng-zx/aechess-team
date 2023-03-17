@@ -13,7 +13,7 @@ public class PostGameController : MonoBehaviour
 {
     private int userid;
 
-    public string server_ip_address = "18.217.77.102";
+    public string server_ip_address = "18.218.77.102";
 
     public TextMeshProUGUI Hint_Text_Box;
 
@@ -21,11 +21,11 @@ public class PostGameController : MonoBehaviour
 
     MockServer mock_server = new MockServer();
 
-    Stage_Codes stage = Stage_Codes.checkstats;
+    Stage_Codes stage = Stage_Codes.checkwin;
     bool return_button_cicked = false;
 
-    checkstats_json checkstats_response = new checkstats_json();
-    bool checkstats_request_done = true;
+    checkwin_json checkwin_response = new checkwin_json();
+    bool checkwin_request_done = true;
 
     clearrecords_json clearrecords_response = new clearrecords_json();
 
@@ -36,32 +36,32 @@ public class PostGameController : MonoBehaviour
     void Start()
     {
         userid= GameObject.Find("userInfo").GetComponent<keepData>().userid;
-        stage = Stage_Codes.checkstats;
+        stage = Stage_Codes.checkwin;
         return_button_cicked = false;
 
-        checkstats_request_done = true;
+        checkwin_request_done = true;
         clearrecords_request_done = true;
     }
 
     void Update(){
         switch (stage){
-            case Stage_Codes.checkstats:
-                checkstats_request_done = false;
-                StartCoroutine(send_checkstats_request(userid));
-                stage = Stage_Codes.checkstats_wait;
+            case Stage_Codes.checkwin:
+                checkwin_request_done = false;
+                StartCoroutine(send_checkwin_request(userid));
+                stage = Stage_Codes.checkwin_wait;
                 break;
-            case Stage_Codes.checkstats_wait:
-                if (!checkstats_request_done){
+            case Stage_Codes.checkwin_wait:
+                if (!checkwin_request_done){
                     // wait
                 }
                 else{
-                    StopCoroutine(send_checkstats_request(userid));
+                    StopCoroutine(send_checkwin_request(userid));
                     string text_str = "You ";
-                    if (checkstats_response.isWin){
-                        text_str+="win \n in "+ checkstats_response.num_piece.ToString()+" move.";
+                    if (checkwin_response.isWin){
+                        text_str+="win \n in "+ checkwin_response.num_piece.ToString()+" move.";
                     }
                     else{
-                        text_str+="lose \n in "+ checkstats_response.num_piece.ToString()+" move.";
+                        text_str+="lose \n in "+ checkwin_response.num_piece.ToString()+" move.";
                     }
                     modify_hint_text(text_str);
                     stage = Stage_Codes.do_nothing;
@@ -97,8 +97,8 @@ public class PostGameController : MonoBehaviour
     enum Stage_Codes
     {
         do_nothing,
-        checkstats,
-        checkstats_wait,
+        checkwin,
+        checkwin_wait,
 
         clearrecords,
         clearrecords_wait
@@ -117,9 +117,9 @@ public class PostGameController : MonoBehaviour
         Hint_Text_Box.fontSize = fontsize;
     }
 
-    IEnumerator send_checkstats_request(int send_userid){
+    IEnumerator send_checkwin_request(int send_userid){
         // POST
-        string uri = "https://" + server_ip_address +  "/checkstats/";
+        string uri = "https://18.218.77.102/checkwin/";
         // TODO: remove hard-defined rules
         WWWForm form = new WWWForm();
         form.AddField("userid", send_userid);
@@ -132,21 +132,21 @@ public class PostGameController : MonoBehaviour
 
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
-                modify_hint_text("POST checkstats request error: " + webRequest.error);
-                checkstats_request_done = true;
+                modify_hint_text("POST checkwin request error: " + webRequest.error);
+                // checkwin_request_done = true;
             }
             else
             {
-                modify_hint_text("POST checkstats request success!");
-                checkstats_response = JsonUtility.FromJson<checkstats_json>(webRequest.downloadHandler.text);
-                checkstats_request_done = true; // Please put this line after putting the result into json class
+                modify_hint_text("POST checkwin request success!");
+                checkwin_response = JsonUtility.FromJson<checkwin_json>(webRequest.downloadHandler.text);
+                checkwin_request_done = true; // Please put this line after putting the result into json class
             }
         }
     }
 
     IEnumerator send_clearrecords_request(int send_userid){
         // POST
-        string uri = "https://" + server_ip_address +  "/clearrecords/";
+        string uri = "https://18.218.77.102/clearrecords/";
         // TODO: remove hard-defined rules
         WWWForm form = new WWWForm();
         form.AddField("userid", send_userid);
@@ -160,7 +160,7 @@ public class PostGameController : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 modify_hint_text("POST clearrecords request error: " + webRequest.error);
-                clearrecords_request_done = true;
+                // clearrecords_request_done = true;
             }
             else
             {
@@ -173,10 +173,10 @@ public class PostGameController : MonoBehaviour
 
 
     [Serializable]
-    public class checkstats_json{
+    public class checkwin_json{
         public bool isWin;
         public int num_piece;
-        public checkstats_json(){
+        public checkwin_json(){
             isWin = true;
             num_piece = 0;
         }
@@ -191,8 +191,8 @@ public class PostGameController : MonoBehaviour
     }
 
     public class MockServer{
-        public checkstats_json check_stats_request(int send_userid){
-            checkstats_json result = new checkstats_json();
+        public checkwin_json check_stats_request(int send_userid){
+            checkwin_json result = new checkwin_json();
             result.isWin = false;
             result.num_piece = 5;
             return result;
