@@ -39,9 +39,9 @@ def gamestart(request):
         cursor.execute('SELECT MAX(userid) FROM match_queue;')
         userid = cursor.fetchone()[0]
         cursor.execute('INSERT INTO game_info(userid, opponentid, player_turn, game_status, piece_cnt) VALUES'
-                       '(%s, %s, %s, %s, %s);', (userid, opponentid, 'TRUE', 'OnGoing', 10))
+                       '(%s, %s, %s, %s, %s);', (userid, opponentid, 'TRUE', 'OnGoing', 0))
         cursor.execute('INSERT INTO game_info(userid, opponentid, player_turn, game_status, piece_cnt) VALUES'
-                '(%s, %s, %s, %s, %s);', (opponentid, userid, 'TRUE', 'OnGoing', 10))
+                '(%s, %s, %s, %s, %s);', (opponentid, userid, 'FALSE', 'OnGoing', 0))
 
 
 
