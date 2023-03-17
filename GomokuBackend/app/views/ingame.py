@@ -11,9 +11,11 @@ def gamestart(request):
     if request.method != 'POST':
         return HttpResponse(status=404)
 
-    json_data = json.loads(request.body)
+    ruleid = request.POST.get('ruleid')
     response = {}
-    ruleid = json_data['ruleid']
+
+    # with open('/home/ubuntu/aechess-team/GomokuBackend/log/1.txt', 'w') as file:
+    #     file.write(request.body.decode('utf-8'))
 
     cursor = connection.cursor()
 
@@ -38,6 +40,10 @@ def gamestart(request):
         userid = cursor.fetchone()[0]
         cursor.execute('INSERT INTO game_info(userid, opponentid, player_turn, game_status, piece_cnt) VALUES'
                        '(%s, %s, %s, %s, %s);', (userid, opponentid, 'TRUE', 'OnGoing', 10))
+        cursor.execute('INSERT INTO game_info(userid, opponentid, player_turn, game_status, piece_cnt) VALUES'
+                '(%s, %s, %s, %s, %s);', (opponentid, userid, 'TRUE', 'OnGoing', 10))
+
+
 
     response['userid'] = userid
     return JsonResponse(response)
@@ -48,23 +54,22 @@ def waitformatch(request):
     if request.method != 'POST':
         return HttpResponse(status=404)
 
-    json_data = json.loads(request.body)
+    userid = request.POST.get('userid')
     response = {}
-    userid = json_data['userid']
 
     cursor = connection.cursor()
 
-    cursor.execute('SELECT userid, gameid, player_turn FROM game_info '
-                   'WHERE userid = %s OR opponentid = %s;', (userid, userid))
+    cursor.execute('SELECT userid, player_turn FROM game_info '
+                   'WHERE userid = %s;', (userid, userid))
     result = cursor.fetchone()
 
     if result is None:
-        response['gamid'] = -1
+        # response['gamid'] = -1
         response['isFirst'] = True
         response['status'] = "continue waiting"
     else:
-        response['gameid'] = result[1]
-        response['isFirst'] = result[2] if userid == result[0] else not result[2]
+        # response['gameid'] = result[1]
+        response['isFirst'] = result[1]
         response['status'] = "matched"
 
     return JsonResponse(response)
@@ -77,13 +82,12 @@ def checkstatus(request):
     if request.method != 'POST':
         return HttpResponse(status=404)
 
-    json_data = json.loads(request.body)
-    userid = json_data['userid']
-    gameid = json_data['gameid']
+    userid = request.POST.get('userid')
+    response = {}
 
     cursor = connection.cursor()
     cursor.execute('SELECT game_status, player_turn FROM game_info '
-                   'WHERE userid = %s AND gameid = %s;', (userid, gameid))
+                   'WHERE userid = %s;', (userid, ))
 
     status, turn = cursor.fetchone()
     response = {}
@@ -100,7 +104,7 @@ def checkstatus(request):
             }
         else:
             cursor.execute('SELECT x, y, z FROM new_piece_info '
-                'WHERE userid = %s AND gameid = %s;', (userid, gameid))
+                'WHERE userid = %s;', (userid, ))
             new_piece = cursor.fetchone()
             # TODO: what if not found?
             new_piece = [float(s) for s in new_piece]
@@ -120,8 +124,7 @@ def endgame(request):
     if request.method != 'POST':
         return HttpResponse(status=404)
 
-    json_data = json.loads(request.body)
-    userid = json_data['userid']
+    userid = request.POST.get('userid')
 
     cursor = connection.cursor()
     cursor.execute('SELECT opponentid FROM game_info '
@@ -151,46 +154,46 @@ def sendpiece(request):
     """
     if request.method != 'POST':
         return HttpResponse(status=404)
-    
-    json_data = json.loads(request.body)
-    userid = json_data['userid']
-    gameid = json_data['gameid']
-    marker_location = json_data['marker_location']
+
+    userid = request.POST.get('userid')
+    # TODO: modify marker_location
+    marker_location = request.POST.get('marker_location')
     response = {}
+
     cursor = connection.cursor()
     ## TODO: add error check for invalid gameid/userid?
     cursor.execute('SELECT game_status, opponentid FROM game_info '
-                    'WHERE userid = %s AND gameid = %s;', (userid, gameid))
+                    'WHERE userid = %s;', (userid, ))
     status, opponentid = cursor.fetchone()
     if status in ["Win", "Lose"]:
         response = {
             'status': "end game"
         }
         return JsonResponse(response)
-    if len(marker_location) == 3: 
+    if len(marker_location) == 3:
         # check if already exist
         cursor.execute('SELECT x,y,z FROM NEW_PIECE_INFO '
-                        'WHERE userid = %s AND gameid = %s;', (userid, gameid))
+                        'WHERE userid = %s;', (userid, ))
         exist = cursor.fetchall()
         if (len(exist)==0):
-            cursor.execute('INSERT INTO NEW_PIECE_INFO (userid, gameid, x, y, z) VALUES (%s, %s, %s, %s, %s)'
-                        , (userid, gameid, marker_location[0], marker_location[1], marker_location[2]))
+            cursor.execute('INSERT INTO NEW_PIECE_INFO (userid, x, y, z) VALUES (%s, %s, %s, %s);'
+                        , (userid, marker_location[0], marker_location[1], marker_location[2]))
         else:
             cursor.execute('UPDATE NEW_PIECE_INFO SET x = %s, y = %s, z = %s'
-                    'WHERE userid = %s AND gameid = %s', (marker_location[0], marker_location[1], marker_location[2],userid, gameid))
+                    'WHERE userid = %s;', (marker_location[0], marker_location[1], marker_location[2],userid))
         ## TODO: add check for duplicate location?
-        cursor.execute('INSERT INTO ALL_PIECE_INFO (userid, gameid, x, y, z) VALUES'
-                    '(%s, %s, %s, %s, %s)', (userid, gameid, marker_location[0], marker_location[1], marker_location[2]))
+        cursor.execute('INSERT INTO ALL_PIECE_INFO (userid, x, y, z) VALUES'
+                    '(%s, %s, %s, %s)', (userid, marker_location[0], marker_location[1], marker_location[2]))
         cursor.execute('UPDATE GAME_INFO SET PIECE_CNT = PIECE_CNT + 1'
-                    'WHERE userid = %s AND gameid = %s', (userid, gameid))
+                    'WHERE userid = %s;', (userid, ))
         ## TODO: MVP: implement checking end of game and update game status
         cursor.execute('UPDATE GAME_INFO SET PLAYER_TURN = %s '
-                    'WHERE userid = %s AND gameid = %s', (False, userid, gameid))
+                    'WHERE userid = %s;', (False, userid))
         cursor.execute('UPDATE GAME_INFO SET PLAYER_TURN = %s '
-                    'WHERE userid = %s AND gameid = %s', (True, opponentid, gameid))
-    
+                    'WHERE userid = %s;', (True, opponentid))
+
     response = {
-        'status': "opponent turn" 
+        'status': "opponent turn"
     }
     return JsonResponse(response)
 
@@ -200,9 +203,8 @@ def clearrecords(request):
     if request.method != 'POST':
         return HttpResponse(status=404)
 
-    json_data = json.loads(request.body)
+    userid = request.POST.get('userid')
     response = {}
-    userid = json_data['userid']
 
     cursor = connection.cursor()
     cursor.execute('DELETE FROM match_queue '
