@@ -81,6 +81,9 @@ DATABASES = {
       'PASSWORD': 'chattchatt',
       'HOST': 'localhost',
       'PORT': '',
+      'TEST': {
+          'NAME': 'gomokudb' # test using original database; keepdb set to True
+      }
   }
 }
 
@@ -126,3 +129,6 @@ STATIC_ROOT = BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Override default test runner
+TEST_RUNNER = 'tests.myRunner.MyRunner'

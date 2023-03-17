@@ -86,6 +86,7 @@ def checkstatus(request):
 
 
 @csrf_exempt
+@transaction.atomic
 def endgame(request):
     """Implements path('endgame/', ingame.endgame, name='endgame').
     """
@@ -117,6 +118,7 @@ def endgame(request):
 
 
 @csrf_exempt
+@transaction.atomic
 def sendpiece(request):
     """Implements path('sendpiece/', ingame.sendpiece, name='sendpiece').
     """
