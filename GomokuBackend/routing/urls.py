@@ -29,4 +29,5 @@ urlpatterns = [
     path('endgame/', ingame.endgame, name='endgame'),
     # 3. Post-Game
     path('clearrecords/', postgame.clearrecords, name='clearrecords'),
+    path('checkwin/', postgame.checkwin, name='checkwin')
 ]

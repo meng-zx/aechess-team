@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.db import connection, transaction
 from django.views.decorators.csrf import csrf_exempt
+from urllib.parse import unquote
 import json
 
 
@@ -17,7 +18,7 @@ def waitformatch(request):
     cursor = connection.cursor()
 
     cursor.execute('SELECT userid, player_turn FROM game_info '
-                   'WHERE userid = %s;', (userid, userid))
+                   'WHERE userid = %s;', (userid, ))
     result = cursor.fetchone()
 
     if result is None:
@@ -33,6 +34,7 @@ def waitformatch(request):
 
 
 @csrf_exempt
+@transaction.atomic
 def checkstatus(request):
     """Implements path('checkstatus/', ingame.checkstatus, name='checkstatus').
     """
@@ -43,10 +45,10 @@ def checkstatus(request):
     response = {}
 
     cursor = connection.cursor()
-    cursor.execute('SELECT game_status, player_turn FROM game_info '
+    cursor.execute('SELECT opponentid, game_status, player_turn, piece_cnt FROM game_info '
                    'WHERE userid = %s;', (userid, ))
 
-    status, turn = cursor.fetchone()
+    opponentid, status, turn, count= cursor.fetchone()
     response = {}
     if status in ["Win", "Lose"]:
         response = {
@@ -60,15 +62,24 @@ def checkstatus(request):
                 'new_piece_location': [0, 0, 0],
             }
         else:
-            cursor.execute('SELECT x, y, z FROM new_piece_info '
-                'WHERE userid = %s;', (userid, ))
-            new_piece = cursor.fetchone()
-            # TODO: what if not found?
-            new_piece = [float(s) for s in new_piece]
-            response = {
-                'status': "player turn",
-                'new_piece_location': new_piece,
-            }
+            # find opponent's new piece if exists
+            if count > 0:
+                cursor.execute('SELECT x, y, z FROM new_piece_info '
+                    'WHERE userid = %s;', (opponentid, ))
+                new_piece = cursor.fetchone()
+                # TODO: what if not found?
+                new_piece = [float(s) for s in new_piece]
+                response = {
+                    'status': "player turn",
+                    'new_piece_location': new_piece,
+                }
+            else:
+                # TODO: return 0,0,0?
+                response = {
+                    'status': "player turn",
+                    'new_piece_location': [0, 0, 0],
+                }
+
 
     # TODO: if not found, return empty response?
     return JsonResponse(response)
@@ -114,7 +125,14 @@ def sendpiece(request):
 
     userid = request.POST.get('userid')
     # TODO: modify marker_location
-    marker_location = request.POST.get('marker_location')
+    marker_location = request.POST.get('marker_location') # example: '(0.04%2c%20-0.08%2c%200.05)'
+    # with open('/home/ubuntu/aechess-team/GomokuBackend/log/2.txt', 'w') as file:
+    #     file.write(request.body.decode('utf-8'))
+    print(request.body.decode('utf-8'))
+    print(marker_location)
+    marker_location = unquote(marker_location) # example: '(0.04, -0.08, 0.05)'
+    print(marker_location)
+    print(len(marker_location))
     response = {}
 
     cursor = connection.cursor()
@@ -122,6 +140,7 @@ def sendpiece(request):
     cursor.execute('SELECT game_status, opponentid FROM game_info '
                     'WHERE userid = %s;', (userid, ))
     status, opponentid = cursor.fetchone()
+    print(status)
     if status in ["Win", "Lose"]:
         response = {
             'status': "end game"

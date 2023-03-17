@@ -36,3 +36,37 @@ def clearrecords(request):
     response['status'] = 'cleared'
 
     return JsonResponse(response)
+
+
+def checkwin(request):
+    """Implements path('checkwin/', ingame.checkstatus, name='checkstatus').
+    """
+    if request.method != 'POST':
+        return HttpResponse(status=404)
+
+    userid = request.POST.get('userid')
+    response = {}
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT game_status, piece_cnt FROM game_info '
+                   'WHERE userid = %s;', (userid, ))
+
+    status, count = cursor.fetchone()
+    response = {}
+    if status == "Win":
+        response = {
+            'isWin': True,
+            'num_piece': count,
+        }
+    elif status in ["Lose", "OnGoing"]:
+        response = {
+            'isWin': False,
+            'num_piece': count,
+        }
+    else:
+        response = {
+            'isWin': False,
+            'num_piece': 0,
+        }
+
+    return JsonResponse(response)
