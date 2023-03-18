@@ -3,7 +3,7 @@ from django.test import RequestFactory, TestCase
 # from django.test.runner import DiscoverRunner
 
 from app.views import hello, pregame, ingame, postgame
-
+import json
 
 class Player():
     def __init__(self, name: str):
@@ -25,7 +25,7 @@ class Player():
         print(f"Player {self.name} {request.method} {request.path} response {response.content.decode('utf-8')}")
         assert(response.status_code == 200)
 
-        self.userid = response.get('userid')
+        self.userid = json.loads(response.content)['userid']
         print(f"Player {self.name} userid set to {self.userid}")
 
     def postWaitformatch(self):
