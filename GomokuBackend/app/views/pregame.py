@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.db import connection, transaction
 from django.views.decorators.csrf import csrf_exempt
+from app.views.utils import Dprint
 import json
 
 
@@ -12,10 +13,8 @@ def gamestart(request):
         return HttpResponse(status=404)
 
     ruleid = request.POST.get('ruleid')
+    Dprint(ruleid)
     response = {}
-
-    # with open('/home/ubuntu/aechess-team/GomokuBackend/log/1.txt', 'w') as file:
-    #     file.write(request.body.decode('utf-8'))
 
     cursor = connection.cursor()
 
@@ -43,7 +42,7 @@ def gamestart(request):
         cursor.execute('INSERT INTO game_info(userid, opponentid, player_turn, game_status, piece_cnt) VALUES'
                 '(%s, %s, %s, %s, %s);', (opponentid, userid, 'FALSE', 'OnGoing', 0))
 
-
-
     response['userid'] = userid
+
+    Dprint(response)
     return JsonResponse(response)
