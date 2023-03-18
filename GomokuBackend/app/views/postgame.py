@@ -37,7 +37,8 @@ def clearrecords(request):
 
     return JsonResponse(response)
 
-
+@csrf_exempt
+@transaction.atomic
 def checkwin(request):
     """Implements path('checkwin/', ingame.checkstatus, name='checkstatus').
     """
@@ -45,13 +46,20 @@ def checkwin(request):
         return HttpResponse(status=404)
 
     userid = request.POST.get('userid')
+    if not userid:
+        return HttpResponse(status=404)
+
     response = {}
 
     cursor = connection.cursor()
     cursor.execute('SELECT game_status, piece_cnt FROM game_info '
                    'WHERE userid = %s;', (userid, ))
 
-    status, count = cursor.fetchone()
+    result = cursor.fetchone()
+    if not result:
+        return HttpResponse(status=404)
+
+    status, count = result
     response = {}
     if status == "Win":
         response = {

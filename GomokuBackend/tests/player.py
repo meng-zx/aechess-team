@@ -33,10 +33,11 @@ class Player:
         print(f"Player {self.name} userid set to {self.userid}")
 
     def postWaitformatch(self):
-        _ = self.post('/waitformatch/', {'userid': self.userid})
+        data = self.post('/waitformatch/', {'userid': self.userid})
+        return data['isFirst']
 
     def postSendpiece(self, piece):
-        _ = self.post('/sendpiece/', {'userid': self.userid, 'marker_location': piece})
+        _ = self.post('/sendpiece/', {'userid': self.userid, 'marker_location': str(piece)})
         self.pieces.append(piece)
 
     def postCheckstatus(self):
