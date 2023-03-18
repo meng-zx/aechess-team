@@ -130,11 +130,9 @@ def sendpiece(request):
     marker_location = request.POST.get('marker_location') # example: '(0.04%2c%20-0.08%2c%200.05)'
     # with open('/home/ubuntu/aechess-team/GomokuBackend/log/2.txt', 'w') as file:
     #     file.write(request.body.decode('utf-8'))
-    print(request.body.decode('utf-8'))
-    print(marker_location)
-    marker_location = unquote(marker_location) # example: '(0.04, -0.08, 0.05)'
-    print(marker_location)
-    print(len(marker_location))
+    # example: '(0.04, -0.08, 0.05)'
+    marker_location = unquote(marker_location)[1:-1].split(',')
+    marker_location = [float(x) for x in marker_location]
     response = {}
 
     cursor = connection.cursor()
