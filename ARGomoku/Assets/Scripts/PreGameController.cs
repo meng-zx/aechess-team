@@ -19,6 +19,7 @@ public class PreGameController : MonoBehaviour
     public string server_ip_address = "18.217.77.102";
 
     public TextMeshProUGUI Hint_Text_Box;
+    public TextMeshProUGUI Tittle_Text_Box;
 
 
 
@@ -41,7 +42,7 @@ public class PreGameController : MonoBehaviour
     {
         userid = -1;
         ruleid = 1;
-        modify_hint_text("Welcome to AR Gomoku");
+        modify_title_text("Welcome to AR Gomoku");
         start_button_clicked = false;
         test_button_clicked = false;
         reset_button_clicked = false;
@@ -95,7 +96,7 @@ public class PreGameController : MonoBehaviour
                 stage = Stage_Codes.do_nothing;
                 break;
             case Stage_Codes.start_game:
-                modify_hint_text("start button clicked");
+                // modify_hint_text("start button clicked");
                 gamestart_request_done = false;
                 StartCoroutine(gamestart_request(ruleid));
                 stage = Stage_Codes.start_game_wait;
@@ -204,7 +205,7 @@ public class PreGameController : MonoBehaviour
             }
             else
             {
-                modify_hint_text("POST gamestart request success!");
+                // modify_hint_text("POST gamestart request success!");
                 gamestart_response = JsonUtility.FromJson<gamestart_json>(webRequest.downloadHandler.text);
                 gamestart_request_done = true; // Please put this line after putting the result into json class
             }
@@ -218,6 +219,12 @@ public class PreGameController : MonoBehaviour
     {
         Hint_Text_Box.text = s;
         Hint_Text_Box.fontSize = fontsize;
+    }
+
+    private void modify_title_text(string s, int fontsize = 60)
+    {
+        Tittle_Text_Box.text = s;
+        Tittle_Text_Box.fontSize = fontsize;
     }
 
     [Serializable]

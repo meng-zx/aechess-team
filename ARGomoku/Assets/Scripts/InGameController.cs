@@ -14,6 +14,7 @@ public class InGameController : MonoBehaviour
     public string server_ip_address = "18.218.77.102";
     public GameObject Chessboard;
     public TextMeshProUGUI Hint_Text_Box;
+    public TextMeshProUGUI Tittle_Text_Box;
     public Button confirm_button;
 
     private Stage_Codes stage = Stage_Codes.wait_matching;
@@ -47,7 +48,7 @@ public class InGameController : MonoBehaviour
     public GameObject[] Corners = new GameObject[4];
 
 
-    MockServer mock_server = new MockServer();
+    // MockServer mock_server = new MockServer();
 
 
     waitformatch_json waitformatch_response = new waitformatch_json();
@@ -70,6 +71,7 @@ public class InGameController : MonoBehaviour
         time = 0.0f;
         delay = true;
         stage = Stage_Codes.wait_matching;
+        modify_title_text("Matching");
         modify_hint_text("Wait for game matching...");
         userid = GameObject.Find("StartInfo").GetComponent<keepData>().userid;
         // debug_text(userid.ToString());
@@ -96,7 +98,7 @@ public class InGameController : MonoBehaviour
 
             switch(stage){
                     case Stage_Codes.wait_matching:
-                    modify_hint_text(userid.ToString());
+                    // modify_hint_text(userid.ToString());
                     waitformatch_request_done = false;
                     StartCoroutine(waitformatch_request(userid));
                     stage = Stage_Codes.wait_matching_wait;
@@ -131,11 +133,12 @@ public class InGameController : MonoBehaviour
                     break;
                 
                 case Stage_Codes.find_markers:
-                    modify_hint_text("Find markers");
+                    modify_title_text("Find Markers");
+                    modify_hint_text("Please scan the markers around the corners");
                     delay = false;
                     if (side_markers_tracking.all_markers_tracked())
                     {
-                        modify_hint_text("All markers found");
+                        modify_hint_text("All markers found!");
                         if (first_play_flag)
                         {
                             stage = Stage_Codes.player_turn;
@@ -155,7 +158,8 @@ public class InGameController : MonoBehaviour
                 case Stage_Codes.player_turn:
                 
                     confirm_button.gameObject.SetActive(true);
-                    modify_hint_text("Your turn");
+                    modify_title_text("Your turn");
+                    modify_hint_text("Put a new piece and then put a marker on it");
 
                     confirm_button.interactable = new_piece_in_range();
                     if (prev_piece_flag)
@@ -208,7 +212,8 @@ public class InGameController : MonoBehaviour
                     }
                     break;
                 case Stage_Codes.wait_opponent:
-                    modify_hint_text("wait for opponent's turn");
+                    modify_title_text("Opponent's turn");
+                    modify_hint_text("Please wait for opponent to put piece");
                     checkstatus_request_done = false;
                     StartCoroutine(send_checkstatus_request(userid));
                     stage = Stage_Codes.wait_opponent_wait;
@@ -314,6 +319,12 @@ public class InGameController : MonoBehaviour
     {
         Hint_Text_Box.text = s;
         Hint_Text_Box.fontSize = fontsize;
+    }
+
+    private void modify_title_text(string s, int fontsize = 60)
+    {
+        Tittle_Text_Box.text = s;
+        Tittle_Text_Box.fontSize = fontsize;
     }
 
     private bool new_piece_in_range()
@@ -451,7 +462,7 @@ public class InGameController : MonoBehaviour
             }
             else
             {
-                modify_hint_text("POST waitformatch request success!");
+                // modify_hint_text("POST waitformatch request success!");
                 waitformatch_response = JsonUtility.FromJson<waitformatch_json>(webRequest.downloadHandler.text);
                 waitformatch_request_done = true; // Please put this line after putting the result into json class
             }
@@ -485,7 +496,7 @@ public class InGameController : MonoBehaviour
             }
             else
             {
-                modify_hint_text("POST sendpiece request success!");
+                // modify_hint_text("POST sendpiece request success!");
                 sendpiece_response = JsonUtility.FromJson<sendpiece_json>(webRequest.downloadHandler.text);
                 sendpiece_request_done = true; // Please put this line after putting the result into json class
             }
@@ -513,7 +524,7 @@ public class InGameController : MonoBehaviour
             }
             else
             {
-                modify_hint_text("POST checkstatus request success!");
+                // modify_hint_text("POST checkstatus request success!");
                 checkstatus_response = JsonUtility.FromJson<checkstatus_json>(webRequest.downloadHandler.text);
                 checkstatus_request_done = true; // Please put this line after putting the result into json class
             }
@@ -541,7 +552,7 @@ public class InGameController : MonoBehaviour
             }
             else
             {
-                modify_hint_text("POST endgame request success!");
+                // modify_hint_text("POST endgame request success!");
                 endgame_response = JsonUtility.FromJson<endgame_json>(webRequest.downloadHandler.text);
                 endgame_request_done = true; // Please put this line after putting the result into json class
             }
@@ -596,88 +607,88 @@ public class InGameController : MonoBehaviour
         }
     }
 
-    public class MockServer
-    {
-        private string ip_address;
-        private Dictionary<int, int> waitformatch_dict = new Dictionary<int, int>();
-        private Dictionary<int, int> checkstatus_dict = new Dictionary<int, int>();
+    // public class MockServer
+    // {
+    //     private string ip_address;
+    //     private Dictionary<int, int> waitformatch_dict = new Dictionary<int, int>();
+    //     private Dictionary<int, int> checkstatus_dict = new Dictionary<int, int>();
 
-        public waitformatch_json wait_for_match_request(int send_userid)
-        {
-            waitformatch_json waitformatch_result = new waitformatch_json();
-            if (waitformatch_dict.ContainsKey(send_userid))
-            {
-                if (waitformatch_dict[send_userid] > 0)
-                {
-                    waitformatch_dict[send_userid] -= 1;
-                }
-                else
-                {
-                    waitformatch_dict[send_userid] = 5;
-                    waitformatch_result.status = "matched";
-                    waitformatch_result.isFirst = true;
-                }
-            }
-            else
-            {
-                waitformatch_dict[send_userid] = 5;
-            }
-            return waitformatch_result;
-        }
+    //     public waitformatch_json wait_for_match_request(int send_userid)
+    //     {
+    //         waitformatch_json waitformatch_result = new waitformatch_json();
+    //         if (waitformatch_dict.ContainsKey(send_userid))
+    //         {
+    //             if (waitformatch_dict[send_userid] > 0)
+    //             {
+    //                 waitformatch_dict[send_userid] -= 1;
+    //             }
+    //             else
+    //             {
+    //                 waitformatch_dict[send_userid] = 5;
+    //                 waitformatch_result.status = "matched";
+    //                 waitformatch_result.isFirst = true;
+    //             }
+    //         }
+    //         else
+    //         {
+    //             waitformatch_dict[send_userid] = 5;
+    //         }
+    //         return waitformatch_result;
+    //     }
 
-        public sendpiece_json send_pos_request(int send_userid, Vector3 pos)
-        {
-            sendpiece_json result = new sendpiece_json();
-            result.status = "opponent turn";
-            return result;
-        }
+    //     public sendpiece_json send_pos_request(int send_userid, Vector3 pos)
+    //     {
+    //         sendpiece_json result = new sendpiece_json();
+    //         result.status = "opponent turn";
+    //         return result;
+    //     }
 
-        public checkstatus_json check_status_request(int send_userid)
-        {
-            checkstatus_json result = new checkstatus_json();
-            if (checkstatus_dict.ContainsKey(send_userid))
-            {
-                if (checkstatus_dict[send_userid] > 0)
-                {
-                    result.status = "player turn";
-                    List<float> new_loc = new List<float>()
-                    {
-                        0.05f - 0.025f * checkstatus_dict[send_userid],
-                        0.0f,
-                        0.0f
-                    };
-                    result.new_piece_location = new_loc;
-                    checkstatus_dict[send_userid] -= 1;
-                }
-                else
-                {
-                    result.status = "end game";
-                    List<float> new_loc = new List<float>() { 0.0f, 0.0f, 0.0f };
-                    result.new_piece_location = new_loc;
-                    checkstatus_dict[send_userid] = 4;
-                }
-            }
-            else
-            {
-                checkstatus_dict[send_userid] = 4;
+    //     public checkstatus_json check_status_request(int send_userid)
+    //     {
+    //         checkstatus_json result = new checkstatus_json();
+    //         if (checkstatus_dict.ContainsKey(send_userid))
+    //         {
+    //             if (checkstatus_dict[send_userid] > 0)
+    //             {
+    //                 result.status = "player turn";
+    //                 List<float> new_loc = new List<float>()
+    //                 {
+    //                     0.05f - 0.025f * checkstatus_dict[send_userid],
+    //                     0.0f,
+    //                     0.0f
+    //                 };
+    //                 result.new_piece_location = new_loc;
+    //                 checkstatus_dict[send_userid] -= 1;
+    //             }
+    //             else
+    //             {
+    //                 result.status = "end game";
+    //                 List<float> new_loc = new List<float>() { 0.0f, 0.0f, 0.0f };
+    //                 result.new_piece_location = new_loc;
+    //                 checkstatus_dict[send_userid] = 4;
+    //             }
+    //         }
+    //         else
+    //         {
+    //             checkstatus_dict[send_userid] = 4;
 
-                result.status = "player turn";
-                List<float> new_loc = new List<float>()
-                {
-                    0.05f - 0.025f * checkstatus_dict[send_userid],
-                    0.0f,
-                    0.0f
-                };
-                result.new_piece_location = new_loc;
-                checkstatus_dict[send_userid] -= 1;
-            }
-            return result;
-        }
+    //             result.status = "player turn";
+    //             List<float> new_loc = new List<float>()
+    //             {
+    //                 0.05f - 0.025f * checkstatus_dict[send_userid],
+    //                 0.0f,
+    //                 0.0f
+    //             };
+    //             result.new_piece_location = new_loc;
+    //             checkstatus_dict[send_userid] -= 1;
+    //         }
+    //         return result;
+    //     }
 
-        public endgame_json mock_end_game(int send_userid)
-        {
-            endgame_json result = new endgame_json();
-            return result;
-        }
-    }
+    //     public endgame_json mock_end_game(int send_userid)
+    //     {
+    //         endgame_json result = new endgame_json();
+    //         return result;
+    //     }
+    // }
 }

@@ -16,6 +16,7 @@ public class PostGameController : MonoBehaviour
     public string server_ip_address = "18.218.77.102";
 
     public TextMeshProUGUI Hint_Text_Box;
+    public TextMeshProUGUI Title_Box;
 
    
 
@@ -56,13 +57,17 @@ public class PostGameController : MonoBehaviour
                 }
                 else{
                     StopCoroutine(send_checkwin_request(userid));
-                    string text_str = "You ";
+                    string text_str = "";
+                    string title_text ="You ";
                     if (checkwin_response.isWin){
-                        text_str+="win \n in "+ checkwin_response.num_piece.ToString()+" move.";
+                        title_text += "win";
+                        text_str+="in "+ checkwin_response.num_piece.ToString()+" move.";
                     }
                     else{
-                        text_str+="lose \n in "+ checkwin_response.num_piece.ToString()+" move.";
+                        title_text += "lose";
+                        text_str+="in "+ checkwin_response.num_piece.ToString()+" move.";
                     }
+                    modify_title_text(title_text);
                     modify_hint_text(text_str);
                     stage = Stage_Codes.do_nothing;
                 }
@@ -116,6 +121,11 @@ public class PostGameController : MonoBehaviour
         Hint_Text_Box.text = s;
         Hint_Text_Box.fontSize = fontsize;
     }
+    private void modify_title_text(string s, int fontsize = 60)
+    {
+        Title_Box.text = s;
+        Title_Box.fontSize = fontsize;
+    }
 
     IEnumerator send_checkwin_request(int send_userid){
         // POST
@@ -137,7 +147,7 @@ public class PostGameController : MonoBehaviour
             }
             else
             {
-                modify_hint_text("POST checkwin request success!");
+                // modify_hint_text("POST checkwin request success!");
                 checkwin_response = JsonUtility.FromJson<checkwin_json>(webRequest.downloadHandler.text);
                 checkwin_request_done = true; // Please put this line after putting the result into json class
             }
@@ -164,7 +174,7 @@ public class PostGameController : MonoBehaviour
             }
             else
             {
-                modify_hint_text("POST clearrecords request success!");
+                // modify_hint_text("POST clearrecords request success!");
                 clearrecords_response = JsonUtility.FromJson<clearrecords_json>(webRequest.downloadHandler.text);
                 clearrecords_request_done = true; // Please put this line after putting the result into json class
             }
