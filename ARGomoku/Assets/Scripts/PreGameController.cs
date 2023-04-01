@@ -21,7 +21,8 @@ public class PreGameController : MonoBehaviour
     public TextMeshProUGUI Hint_Text_Box;
     public TextMeshProUGUI Tittle_Text_Box;
 
-
+    public TMP_Dropdown Dropdown_Rule_selection;
+    
 
     bool start_button_clicked = false;
 
@@ -213,6 +214,13 @@ public class PreGameController : MonoBehaviour
 
 
     
+    }
+
+
+    public void dropdown_select_rule(int value){
+        ruleid =  Dropdown_Rule_selection.value;
+        modify_hint_text("ruleid:"+ ruleid.ToString());
+
     }
 
     private void modify_hint_text(string s, int fontsize = 48)

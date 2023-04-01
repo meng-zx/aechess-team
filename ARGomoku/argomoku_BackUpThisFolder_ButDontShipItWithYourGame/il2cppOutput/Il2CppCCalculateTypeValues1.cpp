@@ -682,6 +682,8 @@ struct SpriteAsset_t1D3CF1D9DC350A4690CB09DE228A8B59F2F02313;
 struct Stream_tF844051B786E8F7F4244DBD218D74E8617B9A2DE;
 // System.String
 struct String_t;
+// TMPro.TMP_Dropdown
+struct TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504;
 // UnityEngine.UI.Text
 struct Text_tD60B2346DAA6666BF0D822FF607F0B220C2B9E62;
 // UnityEngine.TextAsset
@@ -3663,33 +3665,33 @@ struct clearrecords_json_t44136831D8DC01D2A5AEFE01D798F2FFC698C65F  : public Run
 	String_t* ___status_0;
 };
 
-// PreGameController/<GetRequest>d__19
-struct U3CGetRequestU3Ed__19_tBBFF4C07ADAF05D19DD7E3CFD106AAFD1A436822  : public RuntimeObject
+// PreGameController/<GetRequest>d__20
+struct U3CGetRequestU3Ed__20_t012C8C63EB947569FBEEBAA6729D80FD92B68D06  : public RuntimeObject
 {
-	// System.Int32 PreGameController/<GetRequest>d__19::<>1__state
+	// System.Int32 PreGameController/<GetRequest>d__20::<>1__state
 	int32_t ___U3CU3E1__state_0;
-	// System.Object PreGameController/<GetRequest>d__19::<>2__current
+	// System.Object PreGameController/<GetRequest>d__20::<>2__current
 	RuntimeObject* ___U3CU3E2__current_1;
-	// PreGameController PreGameController/<GetRequest>d__19::<>4__this
+	// PreGameController PreGameController/<GetRequest>d__20::<>4__this
 	PreGameController_tFD6554FEE2FB2A4B1C0B21FB4F1D16DF9CBC57C3* ___U3CU3E4__this_2;
-	// System.String PreGameController/<GetRequest>d__19::<uri>5__2
+	// System.String PreGameController/<GetRequest>d__20::<uri>5__2
 	String_t* ___U3CuriU3E5__2_3;
-	// UnityEngine.Networking.UnityWebRequest PreGameController/<GetRequest>d__19::<webRequest>5__3
+	// UnityEngine.Networking.UnityWebRequest PreGameController/<GetRequest>d__20::<webRequest>5__3
 	UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* ___U3CwebRequestU3E5__3_4;
 };
 
-// PreGameController/<gamestart_request>d__20
-struct U3Cgamestart_requestU3Ed__20_tAC5833866F5DD4FD8DF3302EAD69B90421824179  : public RuntimeObject
+// PreGameController/<gamestart_request>d__21
+struct U3Cgamestart_requestU3Ed__21_t64A6DB7EEC52CD1623E6CCC2BAFBA00F4C0B1A20  : public RuntimeObject
 {
-	// System.Int32 PreGameController/<gamestart_request>d__20::<>1__state
+	// System.Int32 PreGameController/<gamestart_request>d__21::<>1__state
 	int32_t ___U3CU3E1__state_0;
-	// System.Object PreGameController/<gamestart_request>d__20::<>2__current
+	// System.Object PreGameController/<gamestart_request>d__21::<>2__current
 	RuntimeObject* ___U3CU3E2__current_1;
-	// System.Int32 PreGameController/<gamestart_request>d__20::send_ruleid
+	// System.Int32 PreGameController/<gamestart_request>d__21::send_ruleid
 	int32_t ___send_ruleid_2;
-	// PreGameController PreGameController/<gamestart_request>d__20::<>4__this
+	// PreGameController PreGameController/<gamestart_request>d__21::<>4__this
 	PreGameController_tFD6554FEE2FB2A4B1C0B21FB4F1D16DF9CBC57C3* ___U3CU3E4__this_3;
-	// UnityEngine.Networking.UnityWebRequest PreGameController/<gamestart_request>d__20::<webRequest>5__2
+	// UnityEngine.Networking.UnityWebRequest PreGameController/<gamestart_request>d__21::<webRequest>5__2
 	UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* ___U3CwebRequestU3E5__2_4;
 };
 
@@ -15273,22 +15275,24 @@ struct PreGameController_tFD6554FEE2FB2A4B1C0B21FB4F1D16DF9CBC57C3  : public Mon
 	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___Hint_Text_Box_7;
 	// TMPro.TextMeshProUGUI PreGameController::Tittle_Text_Box
 	TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* ___Tittle_Text_Box_8;
+	// TMPro.TMP_Dropdown PreGameController::Dropdown_Rule_selection
+	TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* ___Dropdown_Rule_selection_9;
 	// System.Boolean PreGameController::start_button_clicked
-	bool ___start_button_clicked_9;
+	bool ___start_button_clicked_10;
 	// System.Boolean PreGameController::test_button_clicked
-	bool ___test_button_clicked_10;
+	bool ___test_button_clicked_11;
 	// System.Boolean PreGameController::reset_button_clicked
-	bool ___reset_button_clicked_11;
+	bool ___reset_button_clicked_12;
 	// System.Boolean PreGameController::get_webpage_done
-	bool ___get_webpage_done_12;
+	bool ___get_webpage_done_13;
 	// System.String PreGameController::get_webpage_response_text
-	String_t* ___get_webpage_response_text_13;
+	String_t* ___get_webpage_response_text_14;
 	// PreGameController/Stage_Codes PreGameController::stage
-	int32_t ___stage_14;
+	int32_t ___stage_15;
 	// PreGameController/gamestart_json PreGameController::gamestart_response
-	gamestart_json_tC90DE8A2EBD9475BCE4EE0085460DDE4B9338F51* ___gamestart_response_15;
+	gamestart_json_tC90DE8A2EBD9475BCE4EE0085460DDE4B9338F51* ___gamestart_response_16;
 	// System.Boolean PreGameController::gamestart_request_done
-	bool ___gamestart_request_done_16;
+	bool ___gamestart_request_done_17;
 };
 
 // Unity.ThrowStub
@@ -18432,9 +18436,9 @@ const Il2CppTypeDefinitionSizes g_typeDefinitionSize6455 = { sizeof(int32_t)+ si
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize6456;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize6456 = { sizeof(gamestart_json_tC90DE8A2EBD9475BCE4EE0085460DDE4B9338F51), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize6457;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize6457 = { sizeof(U3CGetRequestU3Ed__19_tBBFF4C07ADAF05D19DD7E3CFD106AAFD1A436822), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize6457 = { sizeof(U3CGetRequestU3Ed__20_t012C8C63EB947569FBEEBAA6729D80FD92B68D06), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize6458;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize6458 = { sizeof(U3Cgamestart_requestU3Ed__20_tAC5833866F5DD4FD8DF3302EAD69B90421824179), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize6458 = { sizeof(U3Cgamestart_requestU3Ed__21_t64A6DB7EEC52CD1623E6CCC2BAFBA00F4C0B1A20), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize6459;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize6459 = { sizeof(PreGameController_tFD6554FEE2FB2A4B1C0B21FB4F1D16DF9CBC57C3), -1, 0, 0 };
 extern const Il2CppTypeDefinitionSizes g_typeDefinitionSize6460;
