@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from django.db import connection, transaction
 from django.views.decorators.csrf import csrf_exempt
 from urllib.parse import unquote
-from app.views.utils import Dprint
+from app.views.utils import Dprint, grid_to_coordinate, coordinate_to_grid
 import json
 
 
@@ -68,14 +68,14 @@ def checkstatus(request):
         else:
             # find opponent's new piece if exists
             # if count > 0:
-            cursor.execute('SELECT x, y, z FROM new_piece_info '
+            cursor.execute('SELECT x, z FROM new_piece_info '
                 'WHERE userid = %s;', (opponentid, ))
             new_piece = cursor.fetchone()
             # TODO: what if not found?
-            new_piece = [float(s) for s in new_piece]
+            new_piece = [int(s) for s in new_piece]
             response = {
                 'status': "player turn",
-                'new_piece_location': new_piece,
+                'new_piece_location': grid_to_coordinate(new_piece),
             }
             # else:
             #     # TODO: return 0,0,0?

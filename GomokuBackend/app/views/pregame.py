@@ -37,10 +37,10 @@ def gamestart(request):
 
         cursor.execute('SELECT MAX(userid) FROM match_queue;')
         userid = cursor.fetchone()[0]
-        cursor.execute('INSERT INTO game_info(userid, opponentid, player_turn, game_status, piece_cnt) VALUES'
-                       '(%s, %s, %s, %s, %s);', (userid, opponentid, 'TRUE', 'OnGoing', 0))
-        cursor.execute('INSERT INTO game_info(userid, opponentid, player_turn, game_status, piece_cnt) VALUES'
-                '(%s, %s, %s, %s, %s);', (opponentid, userid, 'FALSE', 'OnGoing', 0))
+        cursor.execute('INSERT INTO game_info(userid, opponentid, ruleid, player_turn, game_status, piece_cnt) VALUES'
+                       '(%s, %s, %s, %s, %s);', (userid, opponentid, ruleid, 'TRUE', 'OnGoing', 0))
+        cursor.execute('INSERT INTO game_info(userid, opponentid, ruleid, player_turn, game_status, piece_cnt) VALUES'
+                '(%s, %s, %s, %s, %s);', (opponentid, userid, ruleid, 'FALSE', 'OnGoing', 0))
 
     response['userid'] = userid
 
