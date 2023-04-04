@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.db import connection, transaction
@@ -18,6 +19,11 @@ def waitformatch(request):
     response = {}
 
     cursor = connection.cursor()
+
+    # update last response time
+    now = datetime.now(timezone.utc)
+    cursor.execute('UPDATE match_queue SET TIME = %s '
+                   'WHERE userid = %s;', (now.strftime("%Y-%m-%d %H:%M:%S"), userid))
 
     cursor.execute('SELECT userid, player_turn FROM game_info '
                    'WHERE userid = %s;', (userid, ))
