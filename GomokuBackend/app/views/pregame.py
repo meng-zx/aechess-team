@@ -35,7 +35,7 @@ def gamestart(request):
             opponentid, response_time = opponent
             now = datetime.now(timezone.utc)
             Dprint(now - response_time)
-            if now > response_time + timedelta(seconds=2):
+            if now > response_time + timedelta(seconds=20):
                 # if last response time is greater than 20 seconds, then delete this entry
                 Dprint("invalud opponent")
                 cursor.execute('DELETE FROM match_queue WHERE userid = %s;', (opponentid,))
