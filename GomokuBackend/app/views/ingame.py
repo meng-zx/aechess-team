@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from django.db import connection, transaction
 from django.views.decorators.csrf import csrf_exempt
 from urllib.parse import unquote
-from app.views.utils import Dprint, grid_to_coordinate, coordinate_to_grid
+from app.views.utils import Dprint, grid_to_coordinate, coordinate_to_grid, check_result
 import json
 
 
@@ -130,7 +130,6 @@ def sendpiece(request):
     """
     if request.method != 'POST':
         return HttpResponse(status=404)
-
     userid = request.POST.get('userid')
     # TODO: modify marker_location
     marker_location = request.POST.get('marker_location') # example: '(0.04%2c%20-0.08%2c%200.05)'
@@ -138,13 +137,17 @@ def sendpiece(request):
     # example: '(0.04, -0.08, 0.05)'
     marker_location = unquote(marker_location)[1:-1].split(',')
     marker_location = [float(x) for x in marker_location]
+
+    #Transform into grid
+    grid_location = coordinate_to_grid(marker_location)
     response = {}
+
 
     cursor = connection.cursor()
     ## TODO: add error check for invalid gameid/userid?
-    cursor.execute('SELECT game_status, opponentid FROM game_info '
+    cursor.execute('SELECT game_status, opponentid, ruleid FROM game_info '
                     'WHERE userid = %s;', (userid, ))
-    status, opponentid = cursor.fetchone()
+    status, opponentid, ruleid = cursor.fetchone()
     print(status)
     if status in ["Win", "Lose"]:
         response = {
@@ -153,29 +156,49 @@ def sendpiece(request):
         return JsonResponse(response)
     if len(marker_location) == 3:
         # check if already exist
-        cursor.execute('SELECT x,y,z FROM NEW_PIECE_INFO '
+        cursor.execute('SELECT x, z FROM NEW_PIECE_INFO '
                         'WHERE userid = %s;', (userid, ))
         exist = cursor.fetchall()
         if (len(exist)==0):
-            cursor.execute('INSERT INTO NEW_PIECE_INFO (userid, x, y, z) VALUES (%s, %s, %s, %s);'
-                        , (userid, marker_location[0], marker_location[1], marker_location[2]))
+            cursor.execute('INSERT INTO NEW_PIECE_INFO (userid, x, z) VALUES (%s, %s, %s);'
+                        , (userid, grid_location[0], grid_location[1]))
         else:
-            cursor.execute('UPDATE NEW_PIECE_INFO SET x = %s, y = %s, z = %s'
-                    'WHERE userid = %s;', (marker_location[0], marker_location[1], marker_location[2],userid))
+            cursor.execute('UPDATE NEW_PIECE_INFO SET x = %s, z = %s'
+                    'WHERE userid = %s;', (grid_location[0], grid_location[1],userid))
         ## TODO: add check for duplicate location?
-        cursor.execute('INSERT INTO ALL_PIECE_INFO (userid, x, y, z) VALUES'
-                    '(%s, %s, %s, %s)', (userid, marker_location[0], marker_location[1], marker_location[2]))
+
+        ## TODO: MVP: implement checking end of game and update game status
+        
+        # Update piece info
+        cursor.execute('INSERT INTO ALL_PIECE_INFO (userid, x, z) VALUES'
+                    '(%s, %s, %s)', (userid, grid_location[0], grid_location[1]))
         cursor.execute('UPDATE GAME_INFO SET PIECE_CNT = PIECE_CNT + 1'
                     'WHERE userid = %s;', (userid, ))
-        ## TODO: MVP: implement checking end of game and update game status
         cursor.execute('UPDATE GAME_INFO SET PLAYER_TURN = %s '
                     'WHERE userid = %s;', (False, userid))
         cursor.execute('UPDATE GAME_INFO SET PLAYER_TURN = %s '
-                    'WHERE userid = %s;', (True, opponentid))
+                    'WHERE userid = %s;', (True, opponentid)) 
+        ## TODO Acquire all chess piecees
+        cursor.execute('SELECT x, z FROM ALL_PIECE_INFO '
+                        'WHERE userid = %s;', (userid, ))
+        all_piece = cursor.fetchall()
+        ## TODO check if finished 
+        game_result = check_result(ruleid, all_piece, grid_location)
+        if game_result:
+            response = {
+                'status': "end game"
+            }
+            cursor.execute('UPDATE GAME_INFO SET GAME_STATUS = %s '
+                    'WHERE userid = %s;', ("Win", userid)) 
+            cursor.execute('UPDATE GAME_INFO SET GAME_STATUS = %s '
+                    'WHERE userid = %s;', ("Lose", opponentid)) 
+        else:
+            response = {
+                'status': "opponent turn"
+            }
+        print(all_piece)
+        # Update piece info
 
-    response = {
-        'status': "opponent turn"
-    }
 
     Dprint(response)
     return JsonResponse(response)
