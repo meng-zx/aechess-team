@@ -16,7 +16,11 @@ def coordinate_to_grid(coordinate):
 
 def check_result(ruleid, all_piece, new_piece):
     """Check if game finished. Return true on finished games"""
-    win_count = ruleid + 4
+    win_count = 5
+    if ruleid == 1:
+        win_count = 4
+    if ruleid == 2:
+        win_count = 6
     current_count = 0
     # up and down
     for i in range((1 - win_count), (win_count - 1), 1):
