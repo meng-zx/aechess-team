@@ -12,7 +12,7 @@ def grid_to_coordinate(grid):
 
 
 def coordinate_to_grid(coordinate):
-    return (int(coordinate[0]/LENGTH), int(coordinate[2]/LENGTH))
+    return (round(coordinate[0]/LENGTH), round(coordinate[2]/LENGTH))
 
 def check_result(ruleid, all_piece, new_piece):
     """Check if game finished. Return true on finished games"""
