@@ -42,7 +42,7 @@ public class PreGameController : MonoBehaviour
     void Start()
     {
         userid = -1;
-        ruleid = 1;
+        ruleid = 0;
         modify_title_text("Welcome to AR Gomoku");
         start_button_clicked = false;
         test_button_clicked = false;

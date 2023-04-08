@@ -6702,8 +6702,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void checkwin_json__ctor_m938D7C19B3F476BA8F0
 	{
 		// public checkwin_json(){
 		Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2(__this, NULL);
-		// isWin = true;
-		__this->___isWin_0 = (bool)1;
+		// isWin = false;
+		__this->___isWin_0 = (bool)0;
 		// num_piece = 0;
 		__this->___num_piece_1 = 0;
 		// }
@@ -6887,7 +6887,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3Csend_checkwin_requestU3Ed__17_MoveNex
 		auto __finallyBlock = il2cpp::utils::Fault([&]
 		{
 
-FAULT_00ec:
+FAULT_00f3:
 			{// begin fault (depth: 1)
 				U3Csend_checkwin_requestU3Ed__17_System_IDisposable_Dispose_mB73888C5E8E095F3DBEF545669A50F5ED318ADCE(__this, NULL);
 				return;
@@ -6915,7 +6915,7 @@ FAULT_00ec:
 			}
 			{
 				V_0 = (bool)0;
-				goto IL_00f3;
+				goto IL_00fa;
 			}
 
 IL_001c_1:
@@ -6957,7 +6957,7 @@ IL_001c_1:
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current_1), (void*)L_13);
 				__this->___U3CU3E1__state_0 = 1;
 				V_0 = (bool)1;
-				goto IL_00f3;
+				goto IL_00fa;
 			}
 
 IL_0084_1:
@@ -6970,7 +6970,7 @@ IL_0084_1:
 				L_15 = UnityWebRequest_get_result_mEF83848C5FCFB5E307CE4B57E42BF02FC9AED449(L_14, NULL);
 				if ((((int32_t)L_15) == ((int32_t)1)))
 				{
-					goto IL_00b9_1;
+					goto IL_00c0_1;
 				}
 			}
 			{
@@ -6984,32 +6984,36 @@ IL_0084_1:
 				L_19 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral506715A94A353B660DDB53979F99B45A2B705EA0, L_18, NULL);
 				NullCheck(L_16);
 				PostGameController_modify_hint_text_m8F1B8F8A539EADE25B21C64DDCB75BAE8B283CA9(L_16, L_19, ((int32_t)48), NULL);
-				goto IL_00db_1;
+				// checkwin_request_done = true;
+				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_20 = V_2;
+				NullCheck(L_20);
+				L_20->___checkwin_request_done_12 = (bool)1;
+				goto IL_00e2_1;
 			}
 
-IL_00b9_1:
+IL_00c0_1:
 			{
 				// checkwin_response = JsonUtility.FromJson<checkwin_json>(webRequest.downloadHandler.text);
-				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_20 = V_2;
-				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_21 = __this->___U3CwebRequestU3E5__2_4;
-				NullCheck(L_21);
-				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_22;
-				L_22 = UnityWebRequest_get_downloadHandler_m1AA91B23D9D594A4F4FE2975FC356C508528F1D5(L_21, NULL);
+				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_21 = V_2;
+				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_22 = __this->___U3CwebRequestU3E5__2_4;
 				NullCheck(L_22);
-				String_t* L_23;
-				L_23 = DownloadHandler_get_text_mA6DE5CB2647A21E577B963708DC3D0DA4DBFE7D8(L_22, NULL);
-				checkwin_json_t4F1BD4FA34081C7064023266EE944B12010775BF* L_24;
-				L_24 = JsonUtility_FromJson_Tischeckwin_json_t4F1BD4FA34081C7064023266EE944B12010775BF_m8FE1952D54FF1FD030A1FD6C8C809602D9B12A96(L_23, JsonUtility_FromJson_Tischeckwin_json_t4F1BD4FA34081C7064023266EE944B12010775BF_m8FE1952D54FF1FD030A1FD6C8C809602D9B12A96_RuntimeMethod_var);
-				NullCheck(L_20);
-				L_20->___checkwin_response_11 = L_24;
-				Il2CppCodeGenWriteBarrier((void**)(&L_20->___checkwin_response_11), (void*)L_24);
+				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_23;
+				L_23 = UnityWebRequest_get_downloadHandler_m1AA91B23D9D594A4F4FE2975FC356C508528F1D5(L_22, NULL);
+				NullCheck(L_23);
+				String_t* L_24;
+				L_24 = DownloadHandler_get_text_mA6DE5CB2647A21E577B963708DC3D0DA4DBFE7D8(L_23, NULL);
+				checkwin_json_t4F1BD4FA34081C7064023266EE944B12010775BF* L_25;
+				L_25 = JsonUtility_FromJson_Tischeckwin_json_t4F1BD4FA34081C7064023266EE944B12010775BF_m8FE1952D54FF1FD030A1FD6C8C809602D9B12A96(L_24, JsonUtility_FromJson_Tischeckwin_json_t4F1BD4FA34081C7064023266EE944B12010775BF_m8FE1952D54FF1FD030A1FD6C8C809602D9B12A96_RuntimeMethod_var);
+				NullCheck(L_21);
+				L_21->___checkwin_response_11 = L_25;
+				Il2CppCodeGenWriteBarrier((void**)(&L_21->___checkwin_response_11), (void*)L_25);
 				// checkwin_request_done = true; // Please put this line after putting the result into json class
-				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_25 = V_2;
-				NullCheck(L_25);
-				L_25->___checkwin_request_done_12 = (bool)1;
+				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_26 = V_2;
+				NullCheck(L_26);
+				L_26->___checkwin_request_done_12 = (bool)1;
 			}
 
-IL_00db_1:
+IL_00e2_1:
 			{
 				// }
 				U3Csend_checkwin_requestU3Ed__17_U3CU3Em__Finally1_mB608A36CF7A324328C3E754CC5EB4C6B9FBA5B34(__this, NULL);
@@ -7017,7 +7021,7 @@ IL_00db_1:
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwebRequestU3E5__2_4), (void*)(UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL);
 				// }
 				V_0 = (bool)0;
-				goto IL_00f3;
+				goto IL_00fa;
 			}
 		}// end try (depth: 1)
 		catch(Il2CppExceptionWrapper& e)
@@ -7026,10 +7030,10 @@ IL_00db_1:
 		}
 	}
 
-IL_00f3:
+IL_00fa:
 	{
-		bool L_26 = V_0;
-		return L_26;
+		bool L_27 = V_0;
+		return L_27;
 	}
 }
 // System.Void PostGameController/<send_checkwin_request>d__17::<>m__Finally1()
@@ -7176,7 +7180,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3Csend_clearrecords_requestU3Ed__18_Mov
 		auto __finallyBlock = il2cpp::utils::Fault([&]
 		{
 
-FAULT_00ec:
+FAULT_00f3:
 			{// begin fault (depth: 1)
 				U3Csend_clearrecords_requestU3Ed__18_System_IDisposable_Dispose_m09A8771D4B8625B833BD887D3343CB519C645004(__this, NULL);
 				return;
@@ -7204,7 +7208,7 @@ FAULT_00ec:
 			}
 			{
 				V_0 = (bool)0;
-				goto IL_00f3;
+				goto IL_00fa;
 			}
 
 IL_001c_1:
@@ -7246,7 +7250,7 @@ IL_001c_1:
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current_1), (void*)L_13);
 				__this->___U3CU3E1__state_0 = 1;
 				V_0 = (bool)1;
-				goto IL_00f3;
+				goto IL_00fa;
 			}
 
 IL_0084_1:
@@ -7259,7 +7263,7 @@ IL_0084_1:
 				L_15 = UnityWebRequest_get_result_mEF83848C5FCFB5E307CE4B57E42BF02FC9AED449(L_14, NULL);
 				if ((((int32_t)L_15) == ((int32_t)1)))
 				{
-					goto IL_00b9_1;
+					goto IL_00c0_1;
 				}
 			}
 			{
@@ -7273,32 +7277,36 @@ IL_0084_1:
 				L_19 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralE5DBF7D9E30E49DFF35E32658D8D7FA7141773DC, L_18, NULL);
 				NullCheck(L_16);
 				PostGameController_modify_hint_text_m8F1B8F8A539EADE25B21C64DDCB75BAE8B283CA9(L_16, L_19, ((int32_t)48), NULL);
-				goto IL_00db_1;
+				// clearrecords_request_done = true;
+				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_20 = V_2;
+				NullCheck(L_20);
+				L_20->___clearrecords_request_done_14 = (bool)1;
+				goto IL_00e2_1;
 			}
 
-IL_00b9_1:
+IL_00c0_1:
 			{
 				// clearrecords_response = JsonUtility.FromJson<clearrecords_json>(webRequest.downloadHandler.text);
-				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_20 = V_2;
-				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_21 = __this->___U3CwebRequestU3E5__2_4;
-				NullCheck(L_21);
-				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_22;
-				L_22 = UnityWebRequest_get_downloadHandler_m1AA91B23D9D594A4F4FE2975FC356C508528F1D5(L_21, NULL);
+				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_21 = V_2;
+				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_22 = __this->___U3CwebRequestU3E5__2_4;
 				NullCheck(L_22);
-				String_t* L_23;
-				L_23 = DownloadHandler_get_text_mA6DE5CB2647A21E577B963708DC3D0DA4DBFE7D8(L_22, NULL);
-				clearrecords_json_t44136831D8DC01D2A5AEFE01D798F2FFC698C65F* L_24;
-				L_24 = JsonUtility_FromJson_Tisclearrecords_json_t44136831D8DC01D2A5AEFE01D798F2FFC698C65F_mEF6ADC2D8D5126451F59EA89E217D3B486EBF5F3(L_23, JsonUtility_FromJson_Tisclearrecords_json_t44136831D8DC01D2A5AEFE01D798F2FFC698C65F_mEF6ADC2D8D5126451F59EA89E217D3B486EBF5F3_RuntimeMethod_var);
-				NullCheck(L_20);
-				L_20->___clearrecords_response_13 = L_24;
-				Il2CppCodeGenWriteBarrier((void**)(&L_20->___clearrecords_response_13), (void*)L_24);
+				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_23;
+				L_23 = UnityWebRequest_get_downloadHandler_m1AA91B23D9D594A4F4FE2975FC356C508528F1D5(L_22, NULL);
+				NullCheck(L_23);
+				String_t* L_24;
+				L_24 = DownloadHandler_get_text_mA6DE5CB2647A21E577B963708DC3D0DA4DBFE7D8(L_23, NULL);
+				clearrecords_json_t44136831D8DC01D2A5AEFE01D798F2FFC698C65F* L_25;
+				L_25 = JsonUtility_FromJson_Tisclearrecords_json_t44136831D8DC01D2A5AEFE01D798F2FFC698C65F_mEF6ADC2D8D5126451F59EA89E217D3B486EBF5F3(L_24, JsonUtility_FromJson_Tisclearrecords_json_t44136831D8DC01D2A5AEFE01D798F2FFC698C65F_mEF6ADC2D8D5126451F59EA89E217D3B486EBF5F3_RuntimeMethod_var);
+				NullCheck(L_21);
+				L_21->___clearrecords_response_13 = L_25;
+				Il2CppCodeGenWriteBarrier((void**)(&L_21->___clearrecords_response_13), (void*)L_25);
 				// clearrecords_request_done = true; // Please put this line after putting the result into json class
-				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_25 = V_2;
-				NullCheck(L_25);
-				L_25->___clearrecords_request_done_14 = (bool)1;
+				PostGameController_t870CAF782949825111D77631AE065B56479073AD* L_26 = V_2;
+				NullCheck(L_26);
+				L_26->___clearrecords_request_done_14 = (bool)1;
 			}
 
-IL_00db_1:
+IL_00e2_1:
 			{
 				// }
 				U3Csend_clearrecords_requestU3Ed__18_U3CU3Em__Finally1_mB0B802B408DE338DDC2E622CD578514563990A7B(__this, NULL);
@@ -7306,7 +7314,7 @@ IL_00db_1:
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwebRequestU3E5__2_4), (void*)(UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL);
 				// }
 				V_0 = (bool)0;
-				goto IL_00f3;
+				goto IL_00fa;
 			}
 		}// end try (depth: 1)
 		catch(Il2CppExceptionWrapper& e)
@@ -7315,10 +7323,10 @@ IL_00db_1:
 		}
 	}
 
-IL_00f3:
+IL_00fa:
 	{
-		bool L_26 = V_0;
-		return L_26;
+		bool L_27 = V_0;
+		return L_27;
 	}
 }
 // System.Void PostGameController/<send_clearrecords_request>d__18::<>m__Finally1()
@@ -7395,8 +7403,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PreGameController_Start_mBF487BD32C4BC19
 	{
 		// userid = -1;
 		__this->___userid_4 = (-1);
-		// ruleid = 1;
-		__this->___ruleid_5 = 1;
+		// ruleid = 0;
+		__this->___ruleid_5 = 0;
 		// modify_title_text("Welcome to AR Gomoku");
 		PreGameController_modify_title_text_m70E206D6A948973C2B7CE22B417F06D9EEA495FE(__this, _stringLiteralE7DFF3BB615FD588B69052A35796BD4A41CC766B, ((int32_t)60), NULL);
 		// start_button_clicked = false;
