@@ -23,7 +23,7 @@ def check_result(ruleid, all_piece, new_piece):
         win_count = 6
     current_count = 0
     # up and down
-    for i in range((1 - win_count), (win_count - 1), 1):
+    for i in range((1 - win_count), (win_count), 1):
         if (new_piece[0], new_piece[1]+i) in all_piece:
             current_count += 1
             if current_count == win_count:
@@ -32,7 +32,7 @@ def check_result(ruleid, all_piece, new_piece):
             current_count = 0
     # left and right:
     current_count = 0
-    for i in range((1 - win_count), (win_count - 1), 1):
+    for i in range((1 - win_count), (win_count), 1):
         if (new_piece[0]+i, new_piece[1]) in all_piece:
             current_count += 1
             if current_count == win_count:
@@ -41,7 +41,7 @@ def check_result(ruleid, all_piece, new_piece):
             current_count = 0
     # y = x
     current_count = 0
-    for i in range((1 - win_count), (win_count - 1), 1):
+    for i in range((1 - win_count), (win_count), 1):
         if (new_piece[0]+i, new_piece[1]+i) in all_piece:
             current_count += 1
             if current_count == win_count:
@@ -50,7 +50,7 @@ def check_result(ruleid, all_piece, new_piece):
             current_count = 0
     # y = -x
     current_count = 0
-    for i in range((1 - win_count), (win_count - 1), 1):
+    for i in range((1 - win_count), (win_count), 1):
         if (new_piece[0]+i, new_piece[1]-i) in all_piece:
             current_count += 1
             if current_count == win_count:

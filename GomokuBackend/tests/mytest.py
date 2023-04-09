@@ -21,32 +21,37 @@ def test1():
         print("player2 first")
 
     # player2.postCheckstatus()
-    player2.postSendpiece((0.0, 0.0, 0.025))
+    player2.postSendpiece((0.0, 0.0, 0.0))
     player1.postCheckstatus()
-    player1.postSendpiece((0.025, 0.0, 0.025))
+    player1.postSendpiece((0.025, 0.0, 0.0))
     player1.postCheckstatus()
     
     player2.postCheckstatus()
+    player2.postSendpiece((0.0, 0.0, 0.025))
+    player1.postCheckstatus()
+    player1.postSendpiece((0.025, 0.0, -0.025))
+
+    player2.postCheckstatus()
+    player2.postSendpiece((0.0, 0.0, -0.025))
+    player1.postCheckstatus()
+    player1.postSendpiece((0.1, 0.0, -0.025))
+
+    player2.postCheckstatus()
+    player2.postSendpiece((0.0, 0.0, -0.05))
+    player1.postCheckstatus()
+    player1.postSendpiece((0.05, 0.0, -0.025))
+
+    player2.postCheckstatus()
+    player2.postSendpiece((0.0, 0.0, -0.075))
+    player1.postCheckstatus()
+    player1.postSendpiece((0.05, 0.0, -0.025))
+
+    player2.postCheckstatus()
     player2.postSendpiece((0.0, 0.0, 0.05))
-    player1.postCheckstatus()
-    player1.postSendpiece((0.05, 0.0, 0.05))
-
-    player2.postCheckstatus()
-    player2.postSendpiece((0.0, 0.0, 0.075))
-    player1.postCheckstatus()
-    player1.postSendpiece((0.025, 0.0, 0.075))
-
-    player2.postCheckstatus()
-    player2.postSendpiece((0.0, 0.0, 0.1))
-    player1.postCheckstatus()
-    player1.postSendpiece((-0.05, 0.0, 0.075))
-
-    player2.postCheckstatus()
-    player2.postSendpiece((0.0, 0.0, 0.125))
 
     player1.postCheckstatus()
 
-    # player1.postCheckwin()
+    player1.postCheckwin()
     # player1.postEndgame()
 
     # player2.postCheckstatus()
