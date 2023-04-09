@@ -143,7 +143,7 @@ public class PostGameController : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 modify_hint_text("POST checkwin request error: " + webRequest.error);
-                // checkwin_request_done = true;
+                checkwin_request_done = true;
             }
             else
             {
@@ -170,7 +170,7 @@ public class PostGameController : MonoBehaviour
             if (webRequest.result != UnityWebRequest.Result.Success)
             {
                 modify_hint_text("POST clearrecords request error: " + webRequest.error);
-                // clearrecords_request_done = true;
+                clearrecords_request_done = true;
             }
             else
             {
@@ -187,7 +187,7 @@ public class PostGameController : MonoBehaviour
         public bool isWin;
         public int num_piece;
         public checkwin_json(){
-            isWin = true;
+            isWin = false;
             num_piece = 0;
         }
     }
