@@ -1,4 +1,4 @@
-DEBUG = 1
+DEBUG = 0
 LENGTH = 0.025
 
 
@@ -13,6 +13,7 @@ def grid_to_coordinate(grid):
 
 def coordinate_to_grid(coordinate):
     return (round(coordinate[0]/LENGTH), round(coordinate[2]/LENGTH))
+
 
 def check_result(ruleid, all_piece, new_piece):
     """Check if game finished. Return true on finished games"""
@@ -30,7 +31,7 @@ def check_result(ruleid, all_piece, new_piece):
                 return True
         else:
             current_count = 0
-    # left and right:
+    # left and right
     current_count = 0
     for i in range((1 - win_count), (win_count), 1):
         if (new_piece[0]+i, new_piece[1]) in all_piece:

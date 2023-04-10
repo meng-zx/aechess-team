@@ -1,9 +1,7 @@
-from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.db import connection, transaction
 from django.views.decorators.csrf import csrf_exempt
 from app.views.utils import Dprint
-import json
 
 
 @csrf_exempt
@@ -49,7 +47,6 @@ def checkwin(request):
         return HttpResponse(status=404)
 
     userid = request.POST.get('userid')
-    Dprint(userid)
     if not userid:
         return HttpResponse(status=404)
 

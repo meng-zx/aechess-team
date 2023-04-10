@@ -1,10 +1,8 @@
 from datetime import datetime, timedelta, timezone
-from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.db import connection, transaction
 from django.views.decorators.csrf import csrf_exempt
 from app.views.utils import Dprint
-import json
 
 
 @csrf_exempt
@@ -42,15 +40,15 @@ def gamestart(request):
             else:
                 # opponent found
                 Dprint("Opponent found")
-                cursor.execute('INSERT INTO match_queue(ruleid, matched) VALUES (%s, TRUE);'
-                            , (ruleid, ))
+                cursor.execute('INSERT INTO match_queue(ruleid, matched) VALUES (%s, TRUE);',
+                               (ruleid, ))
                 cursor.execute('UPDATE match_queue SET matched = TRUE '
                             'WHERE userid = %s', (opponentid, ))
 
                 cursor.execute('SELECT MAX(userid) FROM match_queue;')
                 userid = cursor.fetchone()[0]
                 cursor.execute('INSERT INTO game_info(userid, opponentid, ruleid, player_turn, game_status, piece_cnt) VALUES'
-                            '(%s, %s, %s, %s, %s, %s);', (userid, opponentid, ruleid, 'TRUE', 'OnGoing', 0))
+                        '(%s, %s, %s, %s, %s, %s);', (userid, opponentid, ruleid, 'TRUE', 'OnGoing', 0))
                 cursor.execute('INSERT INTO game_info(userid, opponentid, ruleid, player_turn, game_status, piece_cnt) VALUES'
                         '(%s, %s, %s, %s, %s, %s);', (opponentid, userid, ruleid, 'FALSE', 'OnGoing', 0))
                 break
