@@ -23,6 +23,8 @@ public class InGameController : MonoBehaviour
     bool delay = false;
     MarkerTrackingSystem side_markers_tracking = new MarkerTrackingSystem();
 
+    List<Two_D_Piece_Loc> All_Piece_List = new List<Two_D_Piece_Loc>();
+
     // private HttpRequestHandler http_request_handler;
     private int userid;
     private bool prev_piece_flag = false;
@@ -166,6 +168,9 @@ public class InGameController : MonoBehaviour
                     {
                         // has a previous piece to be renderred
                         add_piece(Prev_new_piece, !first_play_flag);
+                        Two_D_Piece_Loc two_d_loc= new Two_D_Piece_Loc(Prev_new_piece);
+                        modify_hint_text(two_d_loc.ConvertToString());
+                        All_Piece_List.Add(two_d_loc);
 
                         prev_piece_flag = false;
                     }
@@ -174,6 +179,9 @@ public class InGameController : MonoBehaviour
                         loc_on_chessboard = transfer_to_chessboard_coordinate(
                             chesspiece.transform.position
                         );
+                        Two_D_Piece_Loc two_d_loc= new Two_D_Piece_Loc(loc_on_chessboard);
+                        modify_hint_text(two_d_loc.ConvertToString());
+                        All_Piece_List.Add(two_d_loc);
                         sendpiece_request_done = false;
                         StartCoroutine(send_sendpiece_request(userid, loc_on_chessboard));
                         stage = Stage_Codes.player_turn_wait;
@@ -343,6 +351,14 @@ public class InGameController : MonoBehaviour
         float testx = piece_loc_on_chessboard.x;
         float testy = piece_loc_on_chessboard.z;
 
+        Two_D_Piece_Loc target = new Two_D_Piece_Loc(piece_loc_on_chessboard);
+
+        foreach (Two_D_Piece_Loc ploc in All_Piece_List){
+            if (ploc.x == target.x && ploc.z == target.z){
+                return false;
+            }
+        }
+
         float[] vertx = new float[nvert];
         float[] verty = new float[nvert];
 
@@ -370,6 +386,42 @@ public class InGameController : MonoBehaviour
         }
         return c;
     }
+
+
+    public class Two_D_Piece_Loc{
+        public int x;
+        public int z;
+
+        public Two_D_Piece_Loc(){
+            x=0;
+            z=0;
+
+        }
+        public Two_D_Piece_Loc(Vector3 pos){
+            get_value_from_Vec3(pos);
+
+        }
+        public void get_value_from_Vec3(Vector3 pos){
+            x=rount_to_int(pos.x);
+            z= rount_to_int(pos.z);
+        }
+        public string ConvertToString(){
+            string result = "( "+x.ToString()+", "+z.ToString()+")";
+            return result;
+        }
+        public int rount_to_int(float p){
+            if(p/0.025>-0.5){
+                return (int) (p/0.025+0.5);
+            }
+            else{
+                return (int) (p/0.025+0.5)-1;
+            }
+        }
+
+
+    }
+
+    
 
     public void confirm_button_OnClick()
     {
