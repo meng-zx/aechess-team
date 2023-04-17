@@ -51,7 +51,7 @@ def checkstatus(request):
     response = {}
 
     cursor = connection.cursor()
-    cursor.execute('SELECT opponentid, game_status, player_turn, piece_cnt FROM game_info '
+    cursor.execute('SELECT opponentid, game_status, player_turn FROM game_info '
                    'WHERE userid = %s;', (userid, ))
 
     opponentid, status, turn = cursor.fetchone()
